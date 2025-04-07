@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_cephalea
+    restart: always
+    environment:
+      POSTGRES_DB: cephalea_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: backend_cephalea
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+      - /app/target
+    ports:
+      - "9090:9090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cephalea_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    command: ["./mvnw", "spring-boot:run"]
+
+volumes:
+  postgres_data:
