@@ -33,6 +33,7 @@ public class UserService {
         this.userDTOMapper = userDTOMapper;
     }
 
+    //Read all Users
     @Transactional(readOnly = true)
     public List<UserDto> findAll() {
         log.debug("Find all users");
@@ -43,6 +44,7 @@ public class UserService {
         return usersDTO;
     }
 
+    //Read One User
     @Transactional(readOnly = true)
     public UserDto findByUUID(UUID id) {
         log.debug("Find user by UUID {}", id);
@@ -56,6 +58,7 @@ public class UserService {
 
     }
 
+    //Create User
     public UserDto createUser(UserCrudDto userDto) {
         log.debug("Create user {}", userDto);
         if (userRepository.existsByEmail(userDto.getEmail())) {
@@ -78,6 +81,7 @@ public class UserService {
         return userDTOMapper.toDTO(savedUserEntity);
     }
 
+    //Update User
     public UserDto updateUser(UserCrudDto userDto, UUID id) {
         log.debug("Update user {}", userDto);
 
@@ -92,7 +96,7 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email " + userDto.getEmail() + " already exists.");
         }
 
-
+        // check Password
         if (!checkPassword ) {
             if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
                 log.error("Password does not match confirm password");
@@ -110,5 +114,15 @@ public class UserService {
         UserEntity updatedUserEntity = userRepository.save(userToUpdate);
         log.debug("Update user {}", updatedUserEntity);
         return userDTOMapper.toDTO(updatedUserEntity);
+    }
+
+    //Delete User
+    public void deleteUser(UUID id) {
+        log.debug("Delete user {}", id);
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User not found with ID: " + id);
+        }
+        userRepository.deleteById(id);
+        log.debug("Delete user {}", id);
     }
 }
