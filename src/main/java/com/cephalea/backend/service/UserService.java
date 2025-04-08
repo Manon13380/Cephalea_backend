@@ -85,11 +85,15 @@ public class UserService {
         UserEntity userToUpdate = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + id));
 
+        boolean checkPassword = PasswordHasher.checkPassword(userDto.getPassword(), userToUpdate.getPassword());
+
         if (!userDto.getEmail().equals(userToUpdate.getEmail()) && userRepository.existsByEmail(userDto.getEmail())) {
             log.error("User with email {} already exists", userDto.getEmail());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email " + userDto.getEmail() + " already exists.");
         }
-        if (!userDto.getPassword().equals(userToUpdate.getPassword())) {
+
+
+        if (!checkPassword ) {
             if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
                 log.error("Password does not match confirm password");
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password does not match confirm password");
