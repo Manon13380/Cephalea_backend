@@ -29,7 +29,7 @@ public class SoulagementController {
     }
 
     @GetMapping("/soulagements")
-    public ResponseEntity<List<SoulagementDto>> usersGet() {
+    public ResponseEntity<List<SoulagementDto>> soulagementsGet() {
         log.debug("soulagementsGet");
         List<SoulagementDto> soulagementDTOList = soulagementService.findAll();
         return ResponseEntity.ok(soulagementDTOList);

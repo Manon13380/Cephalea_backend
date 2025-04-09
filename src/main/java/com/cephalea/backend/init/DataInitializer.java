@@ -1,7 +1,9 @@
 package com.cephalea.backend.init;
 
 
+import com.cephalea.backend.entity.ActivityAffectedEntity;
 import com.cephalea.backend.entity.SoulagementEntity;
+import com.cephalea.backend.repository.ActivityAffectedRepository;
 import com.cephalea.backend.repository.SoulagementRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     private SoulagementRepository soulagementRepository;
 
+    @Autowired
+    private ActivityAffectedRepository activityAffectedRepository;
+
 
     public void run(String... args) throws Exception {
         if (soulagementRepository.count() == 0) {
@@ -26,22 +31,46 @@ public class DataInitializer implements CommandLineRunner {
             // Read the JSON file from the resources folder
             InputStream inputStream = getClass()
                     .getClassLoader()
-                    .getResourceAsStream("data/soulagements.json");
+                    .getResourceAsStream("data/Soulagements.json");
 
             if (inputStream == null) {
-                System.err.println("❌ Fichier soulagements.json non trouvé !");
+                System.err.println("❌ File soulagements.json not found !");
                 return;
             }
 
-            // onvert JSON into a SoulagementEntity list
+            // convert JSON into a SoulagementEntity list
             List<SoulagementEntity> soulagements = Arrays.asList(
                     objectMapper.readValue(inputStream, SoulagementEntity[].class)
             );
 
             soulagementRepository.saveAll(soulagements);
-            System.out.println("✔ Soulagements insérés depuis le JSON !");
+            System.out.println("✔ Soulagements inserted from JSON  !");
         } else {
-            System.out.println("ℹ Soulagements déjà en base, pas d'insertion.");
+            System.out.println(" Soulagements already in base, no insertion..");
+        }
+
+        if (activityAffectedRepository.count() == 0) {
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            // Read the JSON file from the resources folder
+            InputStream inputStream = getClass()
+                    .getClassLoader()
+                    .getResourceAsStream("data/Activities.json");
+
+            if (inputStream == null) {
+                System.err.println("❌ File activities.json not found !");
+                return;
+            }
+
+            // convert JSON into a ActivityAffectedEntity list
+            List<ActivityAffectedEntity> activities = Arrays.asList(
+                    objectMapper.readValue(inputStream, ActivityAffectedEntity[].class)
+            );
+
+            activityAffectedRepository.saveAll(activities);
+            System.out.println("✔ Activities inserted from JSON  !");
+        } else {
+            System.out.println(" Activities already in base, no insertion..");
         }
     }
 }

@@ -40,7 +40,7 @@ public class SoulagementService {
         log.debug("Find all soulagements");
         List<SoulagementEntity> soulagements = soulagementRepository.findAll();
         List<SoulagementDto> soulagementsDto = soulagements.stream().map(soulagementDTOMapper::toDTO).toList();
-        log.debug("FindAll- Found {} users", soulagementsDto.size());
+        log.debug("FindAll- Found {} soulagements", soulagementsDto.size());
         log.debug("FindAll- got list {}", soulagementsDto);
         return soulagementsDto;
     }
@@ -52,10 +52,10 @@ public class SoulagementService {
         return soulagementRepository.findById(id)
                 .map(soulagementDTOMapper::toDTO)
                 .map(soulagementDto -> {
-                    log.debug("Find user by UUID {}", soulagementDto);
+                    log.debug("Find soulagement by UUID {}", soulagementDto);
                     return soulagementDto;
                 })
-                .orElseThrow(() -> new EntityNotFoundException("User not found with UUID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("soulagement not found with UUID: " + id));
     }
 
     //Create Soulagement
@@ -78,7 +78,7 @@ public class SoulagementService {
 
     //Update Soulagement
     public SoulagementDto updateSoulagement(SoulagementCrudDto soulagementCrudDto, UUID id) {
-        log.debug("Update user {}", soulagementCrudDto);
+        log.debug("Update soulagement {}", soulagementCrudDto);
 
         //Find Existing by Name
         SoulagementEntity soulagementToUpdate = soulagementRepository.findById(id)
@@ -86,8 +86,8 @@ public class SoulagementService {
 
 
         if (!soulagementCrudDto.getName().equals(soulagementToUpdate.getName()) && soulagementRepository.existsByName(soulagementCrudDto.getName())) {
-            log.error("User with email {} already exists", soulagementCrudDto.getName());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email " + soulagementCrudDto.getName() + " already exists.");
+            log.error("soulagement with name {} already exists", soulagementCrudDto.getName());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Soulagement with name " + soulagementCrudDto.getName() + " already exists.");
         }
 
 
@@ -95,7 +95,7 @@ public class SoulagementService {
 
 
         SoulagementEntity updatedSoulagementEntity = soulagementRepository.save(soulagementToUpdate);
-        log.debug("Update soulagemeny {}", updatedSoulagementEntity);
+        log.debug("Update soulagement {}", updatedSoulagementEntity);
         return soulagementDTOMapper.toDTO(updatedSoulagementEntity);
     }
 
