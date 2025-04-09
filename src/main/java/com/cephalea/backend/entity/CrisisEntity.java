@@ -20,7 +20,7 @@ public class CrisisEntity {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private Date startDate;
 
     @Column(name = "end_date")

@@ -1,5 +1,6 @@
 package com.cephalea.backend.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class ActivityAffectedDto {
+
     private UUID id;
     private String name;
 }

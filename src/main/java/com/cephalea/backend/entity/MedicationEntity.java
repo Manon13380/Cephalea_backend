@@ -1,6 +1,6 @@
 package com.cephalea.backend.entity;
 
-import com.cephalea.backend.Period;
+import com.cephalea.backend.enumeration.Period;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

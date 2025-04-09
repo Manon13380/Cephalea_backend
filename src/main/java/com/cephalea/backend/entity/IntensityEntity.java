@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -23,7 +23,7 @@ public class IntensityEntity {
 
     @Column(name = "date", nullable = false)
     @ToString.Include
-    private Date date;
+    private LocalDateTime date;
 
     @Column(name = "number", nullable = false)
     @ToString.Include
