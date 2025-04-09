@@ -2,7 +2,7 @@ package com.cephalea.backend.controller;
 
 
 import com.cephalea.backend.dto.PotentialTriggerCrudDto;
-import com.cephalea.backend.dto.PotentialTriggerdto;
+import com.cephalea.backend.dto.PotentialTriggerDto;
 import com.cephalea.backend.service.PotentialTriggerService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -23,30 +23,30 @@ public class PotentialTriggerController {
     }
 
     @PostMapping("/trigger")
-    public ResponseEntity<PotentialTriggerdto> triggerPost(@Valid @RequestBody PotentialTriggerCrudDto potentialTriggerCrudDto) {
+    public ResponseEntity<PotentialTriggerDto> triggerPost(@Valid @RequestBody PotentialTriggerCrudDto potentialTriggerCrudDto) {
         log.debug("TriggerPost {}", potentialTriggerCrudDto);
-        PotentialTriggerdto createdTrigger= potentialTriggerService.createTrigger(potentialTriggerCrudDto);
+        PotentialTriggerDto createdTrigger= potentialTriggerService.createTrigger(potentialTriggerCrudDto);
         return ResponseEntity.ok(createdTrigger);
     }
 
     @GetMapping("/triggers")
-    public ResponseEntity<List<PotentialTriggerdto>> triggersGet() {
+    public ResponseEntity<List<PotentialTriggerDto>> triggersGet() {
         log.debug("triggersGet");
-        List<PotentialTriggerdto> triggerDTOList = potentialTriggerService.findAll();
+        List<PotentialTriggerDto> triggerDTOList = potentialTriggerService.findAll();
         return ResponseEntity.ok(triggerDTOList);
     }
 
     @GetMapping("/trigger/{id}")
-    public ResponseEntity<PotentialTriggerdto> triggerGet(@PathVariable UUID id) {
+    public ResponseEntity<PotentialTriggerDto> triggerGet(@PathVariable UUID id) {
         log.debug("triggerGet");
-        PotentialTriggerdto trigger = potentialTriggerService.findByUUID(id);
+        PotentialTriggerDto trigger = potentialTriggerService.findByUUID(id);
         return ResponseEntity.ok(trigger);
     }
 
     @PutMapping("/trigger/{id}")
-    public ResponseEntity<PotentialTriggerdto> triggerPut(@PathVariable UUID id, @RequestBody PotentialTriggerCrudDto potentialTriggerCrudDto) {
+    public ResponseEntity<PotentialTriggerDto> triggerPut(@PathVariable UUID id, @RequestBody PotentialTriggerCrudDto potentialTriggerCrudDto) {
         log.debug("triggerPut");
-        PotentialTriggerdto updateTrigger= potentialTriggerService.updateTrigger(potentialTriggerCrudDto,id);
+        PotentialTriggerDto updateTrigger= potentialTriggerService.updateTrigger(potentialTriggerCrudDto,id);
         return ResponseEntity.ok(updateTrigger);
     }
 

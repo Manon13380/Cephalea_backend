@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class PotentialTriggerCrudDto {
-
     private String name;
 
 }

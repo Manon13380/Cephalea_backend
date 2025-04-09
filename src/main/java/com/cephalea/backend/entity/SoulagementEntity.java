@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Setter
@@ -21,5 +23,8 @@ public class SoulagementEntity {
     @Column(name = "name", nullable = false)
     @ToString.Include
     private String name;
+
+    @ManyToMany(mappedBy = "soulagements")
+    private Set<CrisisEntity> crisis = new HashSet<>();
 
 }

@@ -1,0 +1,21 @@
+[
+  { "name": "Stress" },
+  { "name": "Manque de sommeil" },
+  { "name": "Effort Physique" },
+  { "name": "Anxiété" },
+  { "name": "Repas Manqué" },
+  { "name": "Caféine" },
+  { "name": "Alcool" },
+  { "name": "Fromage affiné" },
+  { "name": "Nourriture transformé" },
+  { "name": "Météo" },
+  { "name": "Déshydratation" },
+  { "name": "Lumière éblouissante" },
+  { "name": "Réaction allergique" },
+  { "name": "Odeur Forte/désagréable" },
+  { "name": "Sinus" },
+  { "name": "Douleur dans le cou" },
+  { "name": "Céphalée de rebond" },
+  { "name": "Sommeil Irrégulier" },
+  { "name": "Cinéma" }
+]

@@ -2,8 +2,8 @@ package com.cephalea.backend.service;
 
 
 import com.cephalea.backend.dto.PotentialTriggerCrudDto;
-import com.cephalea.backend.dto.PotentialTriggerdto;
-import com.cephalea.backend.entity.PotentialtriggerEntity;
+import com.cephalea.backend.dto.PotentialTriggerDto;
+import com.cephalea.backend.entity.PotentialTriggerEntity;
 import com.cephalea.backend.mapper.PotentialTriggerDTOMapper;
 import com.cephalea.backend.repository.PotentialTriggerRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,10 +33,10 @@ public class PotentialTriggerService {
 
     //Read all Potential Trigger
     @Transactional(readOnly = true)
-    public List<PotentialTriggerdto> findAll() {
+    public List<PotentialTriggerDto> findAll() {
         log.debug("Find all PotentialTriggers");
-        List<PotentialtriggerEntity> triggers = potentialTriggerRepository.findAll();
-        List<PotentialTriggerdto> potentialTriggerdtos = triggers.stream().map(potentialTriggerDTOMapper::toDTO).toList();
+        List<PotentialTriggerEntity> triggers = potentialTriggerRepository.findAll();
+        List<PotentialTriggerDto> potentialTriggerdtos = triggers.stream().map(potentialTriggerDTOMapper::toDTO).toList();
         log.debug("FindAll- Found {} potential triggers", potentialTriggerdtos.size());
         log.debug("FindAll- got list {}", potentialTriggerdtos);
         return potentialTriggerdtos;
@@ -44,7 +44,7 @@ public class PotentialTriggerService {
 
     //Read One Potential Trigger
     @Transactional(readOnly = true)
-    public PotentialTriggerdto findByUUID(UUID id) {
+    public PotentialTriggerDto findByUUID(UUID id) {
         log.debug("Find Trigger by UUID {}", id);
         return potentialTriggerRepository.findById(id)
                 .map(potentialTriggerDTOMapper::toDTO)
@@ -56,7 +56,7 @@ public class PotentialTriggerService {
     }
 
     //Create Potential Trigger
-    public PotentialTriggerdto createTrigger(PotentialTriggerCrudDto potentialTriggerCrudDto) {
+    public PotentialTriggerDto createTrigger(PotentialTriggerCrudDto potentialTriggerCrudDto) {
         log.debug("Create trigger {}", potentialTriggerCrudDto);
         if (potentialTriggerRepository.existsByName(potentialTriggerCrudDto.getName())) {
             log.debug("Trigger with name {} already exists", potentialTriggerCrudDto.getName());
@@ -64,21 +64,21 @@ public class PotentialTriggerService {
         }
 
         //Map DTO to entity
-        PotentialtriggerEntity potentialtriggerEntity = potentialTriggerDTOMapper.toEntity(potentialTriggerCrudDto);
+        PotentialTriggerEntity potentialtriggerEntity = potentialTriggerDTOMapper.toEntity(potentialTriggerCrudDto);
 
 
         //Save Trigger
-        PotentialtriggerEntity savedTriggerEntity = potentialTriggerRepository.save(potentialtriggerEntity);
+        PotentialTriggerEntity savedTriggerEntity = potentialTriggerRepository.save(potentialtriggerEntity);
         log.debug("Create trigger {}", savedTriggerEntity);
         return potentialTriggerDTOMapper.toDTO(savedTriggerEntity);
     }
 
     //Update Trigger
-    public PotentialTriggerdto updateTrigger(PotentialTriggerCrudDto potentialTriggerCrudDto, UUID id) {
+    public PotentialTriggerDto updateTrigger(PotentialTriggerCrudDto potentialTriggerCrudDto, UUID id) {
         log.debug("Update Trigger {}", potentialTriggerCrudDto);
 
         //Find Existing by Name
-        PotentialtriggerEntity triggerToUpdate = potentialTriggerRepository.findById(id)
+        PotentialTriggerEntity triggerToUpdate = potentialTriggerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Trigger not found with ID: " + id));
 
 
@@ -91,7 +91,7 @@ public class PotentialTriggerService {
         triggerToUpdate.setName(potentialTriggerCrudDto.getName());
 
 
-        PotentialtriggerEntity updatedTriggerEntity = potentialTriggerRepository.save(triggerToUpdate);
+        PotentialTriggerEntity updatedTriggerEntity = potentialTriggerRepository.save(triggerToUpdate);
         log.debug("Update Trigger {}", updatedTriggerEntity);
         return potentialTriggerDTOMapper.toDTO(updatedTriggerEntity);
     }

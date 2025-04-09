@@ -1,11 +1,9 @@
 package com.cephalea.backend.mapper;
 
-import com.cephalea.backend.dto.ActivityAffectedCrudDto;
-import com.cephalea.backend.dto.ActivityAffectedDto;
+
 import com.cephalea.backend.dto.PotentialTriggerCrudDto;
-import com.cephalea.backend.dto.PotentialTriggerdto;
-import com.cephalea.backend.entity.ActivityAffectedEntity;
-import com.cephalea.backend.entity.PotentialtriggerEntity;
+import com.cephalea.backend.dto.PotentialTriggerDto;
+import com.cephalea.backend.entity.PotentialTriggerEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -15,8 +13,8 @@ public interface PotentialTriggerDTOMapper {
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
-    PotentialTriggerdto toDTO(PotentialtriggerEntity potentialtriggerEntity);
+    PotentialTriggerDto toDTO(PotentialTriggerEntity potentialTriggerEntity);
 
     @Mapping(target = "name", source = "name")
-    PotentialtriggerEntity toEntity(PotentialTriggerCrudDto potentialTriggerCrudDto);
+    PotentialTriggerEntity toEntity(PotentialTriggerCrudDto potentialTriggerCrudDto);
 }

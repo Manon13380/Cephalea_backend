@@ -9,8 +9,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PotentialTriggerdto {
-
+public class PotentialTriggerDto {
     private UUID id;
     private String name;
 }

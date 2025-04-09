@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Setter
@@ -12,9 +14,7 @@ import java.util.UUID;
 @ToString(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name ="potential_trigger")
-public class PotentialtriggerEntity {
-
-
+public class PotentialTriggerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
@@ -24,5 +24,6 @@ public class PotentialtriggerEntity {
     @ToString.Include
     private String name;
 
-
+    @ManyToMany(mappedBy = "triggers")
+    private Set<CrisisEntity> crisis = new HashSet<>();
 }

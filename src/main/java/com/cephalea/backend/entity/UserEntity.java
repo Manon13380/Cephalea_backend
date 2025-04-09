@@ -7,6 +7,8 @@ import lombok.ToString;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -43,6 +45,12 @@ public class UserEntity {
 
     @Column(name = "neurologist")
     private String neurologist;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CrisisEntity> crises = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MedicationEntity> medications = new ArrayList<>();
 
 
 }
