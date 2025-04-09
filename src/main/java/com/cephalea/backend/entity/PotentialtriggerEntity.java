@@ -1,6 +1,5 @@
 package com.cephalea.backend.entity;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +11,9 @@ import java.util.UUID;
 @Getter
 @ToString(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name ="activity_affected")
-public class ActivityAffectedEntity {
+@Table(name ="potential_trigger")
+public class PotentialtriggerEntity {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,5 +23,6 @@ public class ActivityAffectedEntity {
     @Column(name = "name", nullable = false)
     @ToString.Include
     private String name;
+
 
 }

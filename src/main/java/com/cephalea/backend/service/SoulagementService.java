@@ -2,13 +2,9 @@ package com.cephalea.backend.service;
 
 import com.cephalea.backend.dto.SoulagementCrudDto;
 import com.cephalea.backend.dto.SoulagementDto;
-import com.cephalea.backend.dto.UserCrudDto;
-import com.cephalea.backend.dto.UserDto;
 import com.cephalea.backend.entity.SoulagementEntity;
-import com.cephalea.backend.entity.UserEntity;
 import com.cephalea.backend.mapper.SoulagementDTOMapper;
 import com.cephalea.backend.repository.SoulagementRepository;
-import com.cephalea.backend.security.PasswordHasher;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

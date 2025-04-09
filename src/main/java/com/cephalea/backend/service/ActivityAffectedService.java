@@ -2,14 +2,9 @@ package com.cephalea.backend.service;
 
 import com.cephalea.backend.dto.ActivityAffectedCrudDto;
 import com.cephalea.backend.dto.ActivityAffectedDto;
-import com.cephalea.backend.dto.SoulagementCrudDto;
-import com.cephalea.backend.dto.SoulagementDto;
 import com.cephalea.backend.entity.ActivityAffectedEntity;
-import com.cephalea.backend.entity.SoulagementEntity;
 import com.cephalea.backend.mapper.ActivityAffectedDTOMapper;
-import com.cephalea.backend.mapper.SoulagementDTOMapper;
 import com.cephalea.backend.repository.ActivityAffectedRepository;
-import com.cephalea.backend.repository.SoulagementRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
