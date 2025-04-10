@@ -61,9 +61,9 @@ public class IntensityService {
         IntensityEntity intensityEntity = intensityDTOMapper.toEntity(intensityCrudDto);
 
         //Save intensity
-        IntensityEntity savedIntensitysEntity = intensityRepository.save(intensityEntity);
-        log.debug("Create intensity {}", savedIntensitysEntity);
-        return intensityDTOMapper.toDTO(savedIntensitysEntity);
+        IntensityEntity savedIntensityEntity = intensityRepository.save(intensityEntity);
+        log.debug("Create intensity {}", savedIntensityEntity);
+        return intensityDTOMapper.toDTO(savedIntensityEntity);
     }
 
     //Update intensity

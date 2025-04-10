@@ -1,10 +1,8 @@
 package com.cephalea.backend.controller;
 
-import com.cephalea.backend.dto.CrisisCrudDto;
-import com.cephalea.backend.dto.CrisisDto;
+
 import com.cephalea.backend.dto.IntensityCrudDto;
 import com.cephalea.backend.dto.IntensityDto;
-import com.cephalea.backend.service.CrisisService;
 import com.cephalea.backend.service.IntensityService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
