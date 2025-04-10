@@ -12,6 +12,6 @@ import java.util.UUID;
 @Repository
 public interface CrisisMedicationRepository extends JpaRepository<CrisisMedicationEntity, UUID> {
 
-    boolean existsByCrisisAndMedicationAndDate(CrisisEntity crisis, MedicationEntity medication, LocalDateTime date);
+    boolean existsByCrisisAndMedicationAndDateTimeIntake(CrisisEntity crisis, MedicationEntity medication, LocalDateTime dateTimeIntake);
 
 }

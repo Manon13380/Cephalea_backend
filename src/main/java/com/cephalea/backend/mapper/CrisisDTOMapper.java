@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 public interface CrisisDTOMapper {
 
     @Mapping(target = "id" , source = "id")
-    @Mapping(target = "startDate" , source = "starDate")
+    @Mapping(target = "startDate" , source = "startDate")
     @Mapping(target = "endDate" , source = "endDate")
     @Mapping(target = "comment" , source = "comment")
     @Mapping(target = "user" , source = "user")
@@ -22,7 +22,7 @@ public interface CrisisDTOMapper {
     @Mapping(target = "crisisMedication" , source = "crisisMedication")
     CrisisDto toDTO(CrisisEntity crisisEntity);
 
-    @Mapping(target = "startDate" , source = "starDate")
+    @Mapping(target = "startDate" , source = "startDate")
     @Mapping(target = "endDate" , source = "endDate")
     @Mapping(target = "comment" , source = "comment")
     @Mapping(target = "user" , source = "user")

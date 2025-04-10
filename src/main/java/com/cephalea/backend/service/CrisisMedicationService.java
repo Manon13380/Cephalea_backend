@@ -60,7 +60,7 @@ public class CrisisMedicationService {
     public CrisisMedicationDto createCrisisMedication(CrisisMedicationCrudDto crisisMedicationCrudDto) {
         log.debug("Create CrisisMedication {}", crisisMedicationCrudDto);
 
-        if (crisisMedicationRepository.existsByCrisisAndMedicationAndDate(crisisMedicationCrudDto.getCrisis(), crisisMedicationCrudDto.getMedication(), crisisMedicationCrudDto.getDateTimeIntake()))
+        if (crisisMedicationRepository.existsByCrisisAndMedicationAndDateTimeIntake(crisisMedicationCrudDto.getCrisis(), crisisMedicationCrudDto.getMedication(), crisisMedicationCrudDto.getDateTimeIntake()))
         {
             log.debug("CrisisMedication with date {} already exists", crisisMedicationCrudDto.getDateTimeIntake());
             throw new ResponseStatusException(HttpStatus.CONFLICT, "CrisisMedication with date " + crisisMedicationCrudDto.getDateTimeIntake() + " already exists.");
@@ -84,7 +84,7 @@ public class CrisisMedicationService {
                 .orElseThrow(() -> new EntityNotFoundException("Activity not found with ID: " + id));
 
 
-        if (crisisMedicationRepository.existsByCrisisAndMedicationAndDate(crisisMedicationCrudDto.getCrisis(), crisisMedicationCrudDto.getMedication(), crisisMedicationCrudDto.getDateTimeIntake()))
+        if (crisisMedicationRepository.existsByCrisisAndMedicationAndDateTimeIntake(crisisMedicationCrudDto.getCrisis(), crisisMedicationCrudDto.getMedication(), crisisMedicationCrudDto.getDateTimeIntake()))
         {
             log.debug("CrisisMedication with date {} already exists", crisisMedicationCrudDto.getDateTimeIntake());
             throw new ResponseStatusException(HttpStatus.CONFLICT, "CrisisMedication with date " + crisisMedicationCrudDto.getDateTimeIntake() + " already exists.");
