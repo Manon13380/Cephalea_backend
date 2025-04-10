@@ -10,4 +10,5 @@ import java.util.UUID;
 public interface ActivityAffectedRepository extends JpaRepository<ActivityAffectedEntity, UUID> {
 
     Boolean existsByName(String name);
+
 }

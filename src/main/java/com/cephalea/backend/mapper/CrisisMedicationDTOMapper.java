@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 @SuppressWarnings("UnmappedTargetProperties")
-public interface CrisisMedicationDTPMapper {
+public interface CrisisMedicationDTOMapper {
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "crisis", source = "crisis")
