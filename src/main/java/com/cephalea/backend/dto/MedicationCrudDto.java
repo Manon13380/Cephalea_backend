@@ -43,6 +43,6 @@ public class MedicationCrudDto {
     @NotNull
     private UserEntity user;
 
-    private Set<CrisisMedicationEntity> crisisMedicationEntities = new HashSet<>();
+    private Set<CrisisMedicationEntity> crisisMedication = new HashSet<>();
 
 }

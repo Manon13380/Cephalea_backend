@@ -21,7 +21,7 @@ public class SoulagementController {
         this.soulagementService = soulagementService;
     }
 
-    @PostMapping("/soulagement")
+    @PostMapping("/soulagements")
     public ResponseEntity<SoulagementDto> SoulagementPost(@Valid @RequestBody SoulagementCrudDto soulagementCrudDto) {
         log.debug("SoulagementPost {}", soulagementCrudDto);
         SoulagementDto createdSoulagement = soulagementService.createSoulagement(soulagementCrudDto);
@@ -35,21 +35,21 @@ public class SoulagementController {
         return ResponseEntity.ok(soulagementDTOList);
     }
 
-    @GetMapping("/soulagement/{id}")
+    @GetMapping("/soulagements/{id}")
     public ResponseEntity<SoulagementDto> soulagementGet(@PathVariable UUID id) {
         log.debug("soulagementGet");
         SoulagementDto soulagement = soulagementService.findByUUID(id);
         return ResponseEntity.ok(soulagement);
     }
 
-    @PutMapping("/soulagement/{id}")
+    @PutMapping("/soulagements/{id}")
     public ResponseEntity<SoulagementDto> soulagementPut(@PathVariable UUID id, @RequestBody SoulagementCrudDto soulagementCrudDto) {
         log.debug("soulagementPut");
         SoulagementDto updateSoulagement= soulagementService.updateSoulagement(soulagementCrudDto,id);
         return ResponseEntity.ok(updateSoulagement);
     }
 
-    @DeleteMapping("/soulagement/{id}")
+    @DeleteMapping("/soulagements/{id}")
     public ResponseEntity<Void> soulagementDelete(@PathVariable UUID id) {
         log.debug("REST request to delete soulagement with ID {}", id);
         soulagementService.deleteSoulagement(id);

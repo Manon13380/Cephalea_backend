@@ -34,6 +34,6 @@ public class CrisisDto {
 
     private Set<IntensityEntity> intensities = new HashSet<>();
 
-    private Set<CrisisMedicationEntity> crisisMedicationEntities = new HashSet<>();
+    private Set<CrisisMedicationEntity> crisisMedication = new HashSet<>();
 
 }

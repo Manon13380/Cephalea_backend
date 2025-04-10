@@ -91,30 +91,43 @@ public class UserService {
 
         boolean checkPassword = PasswordHasher.checkPassword(userDto.getPassword(), userToUpdate.getPassword());
 
-        if (!userDto.getEmail().equals(userToUpdate.getEmail()) && userRepository.existsByEmail(userDto.getEmail())) {
-            log.error("User with email {} already exists", userDto.getEmail());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email " + userDto.getEmail() + " already exists.");
+        if (userDto.getEmail() != null && !userDto.getEmail().equals(userToUpdate.getEmail())) {
+            if (userRepository.existsByEmail(userDto.getEmail())) {
+                log.error("User with email {} already exists", userDto.getEmail());
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email " + userDto.getEmail() + " already exists.");
+            }
+            userToUpdate.setEmail(userDto.getEmail());
         }
 
-        // check Password
-        if (!checkPassword ) {
+        if (userDto.getPassword() != null) {
             if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
                 log.error("Password does not match confirm password");
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password does not match confirm password");
             }
             userToUpdate.setPassword(PasswordHasher.hashPassword(userDto.getPassword()));
         }
-        userToUpdate.setEmail(userDto.getEmail());
-        userToUpdate.setFirstName(userDto.getFirstName());
-        userToUpdate.setName(userDto.getName());
-        userToUpdate.setBirthDate(userDto.getBirthDate());
-        userToUpdate.setDoctor(userDto.getDoctor());
-        userToUpdate.setNeurologist(userDto.getNeurologist());
+
+        if (userDto.getFirstName() != null)
+            userToUpdate.setFirstName(userDto.getFirstName());
+
+        if (userDto.getName() != null)
+            userToUpdate.setName(userDto.getName());
+
+        if (userDto.getBirthDate() != null)
+            userToUpdate.setBirthDate(userDto.getBirthDate());
+
+        if (userDto.getDoctor() != null)
+            userToUpdate.setDoctor(userDto.getDoctor());
+
+        if (userDto.getNeurologist() != null)
+            userToUpdate.setNeurologist(userDto.getNeurologist());
 
         UserEntity updatedUserEntity = userRepository.save(userToUpdate);
         log.debug("Update user {}", updatedUserEntity);
         return userDTOMapper.toDTO(updatedUserEntity);
     }
+
+
 
     //Delete User
     public void deleteUser(UUID id) {

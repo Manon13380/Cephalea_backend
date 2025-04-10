@@ -31,14 +31,14 @@ public class MedicationEntity {
     @Column(name="quantity")
     private Integer quantity;
 
-    @Column(name = "periodQuantity")
+    @Column(name = "period_quantity")
     @Enumerated(EnumType.STRING)
     private Period periodQuantity;
 
     @Column(name = "duration")
     private Integer duration;
 
-    @Column(name = "periodDuration")
+    @Column(name = "period_duration")
     @Enumerated(EnumType.STRING)
     private Period periodDuration;
 
@@ -48,14 +48,14 @@ public class MedicationEntity {
     @Column(name ="maximum")
     private Integer maximum;
 
-    @Column(name = "periodMaximum")
+    @Column(name = "period_maximum")
     @Enumerated(EnumType.STRING)
     private Period periodMaximum;
 
-    @Column(name = "isDelete")
+    @Column(name = "is_delete")
     private Boolean isDelete;
 
-    @Column(name = "isAlarm")
+    @Column(name = "is_alarm")
     private Boolean isAlarm;
 
     @ManyToOne
@@ -63,7 +63,7 @@ public class MedicationEntity {
     private UserEntity user;
 
     @OneToMany(mappedBy = "medication")
-    private Set<CrisisMedicationEntity> crisisMedicationEntities = new HashSet<>();
+    private Set<CrisisMedicationEntity> crisisMedication = new HashSet<>();
 
 
 }

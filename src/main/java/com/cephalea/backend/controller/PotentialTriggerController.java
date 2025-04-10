@@ -22,7 +22,7 @@ public class PotentialTriggerController {
         this.potentialTriggerService = potentialTriggerService;
     }
 
-    @PostMapping("/trigger")
+    @PostMapping("/triggers")
     public ResponseEntity<PotentialTriggerDto> triggerPost(@Valid @RequestBody PotentialTriggerCrudDto potentialTriggerCrudDto) {
         log.debug("TriggerPost {}", potentialTriggerCrudDto);
         PotentialTriggerDto createdTrigger= potentialTriggerService.createTrigger(potentialTriggerCrudDto);
@@ -36,21 +36,21 @@ public class PotentialTriggerController {
         return ResponseEntity.ok(triggerDTOList);
     }
 
-    @GetMapping("/trigger/{id}")
+    @GetMapping("/triggers/{id}")
     public ResponseEntity<PotentialTriggerDto> triggerGet(@PathVariable UUID id) {
         log.debug("triggerGet");
         PotentialTriggerDto trigger = potentialTriggerService.findByUUID(id);
         return ResponseEntity.ok(trigger);
     }
 
-    @PutMapping("/trigger/{id}")
+    @PutMapping("/triggers/{id}")
     public ResponseEntity<PotentialTriggerDto> triggerPut(@PathVariable UUID id, @RequestBody PotentialTriggerCrudDto potentialTriggerCrudDto) {
         log.debug("triggerPut");
         PotentialTriggerDto updateTrigger= potentialTriggerService.updateTrigger(potentialTriggerCrudDto,id);
         return ResponseEntity.ok(updateTrigger);
     }
 
-    @DeleteMapping("/trigger/{id}")
+    @DeleteMapping("/triggers/{id}")
     public ResponseEntity<Void> triggerDelete(@PathVariable UUID id) {
         log.debug("REST request to delete trigger with ID {}", id);
         potentialTriggerService.deleteTrigger(id);
