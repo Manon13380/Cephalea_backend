@@ -49,6 +49,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+        <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
@@ -68,6 +73,20 @@
             <artifactId>mapstruct</artifactId>
             <version>1.5.5.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.12.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -84,16 +103,24 @@
                     <source>21</source>
                     <target>21</target>
                     <annotationProcessorPaths>
-                        <annotationProcessorPath>
+                        <!-- MapStruct processor -->
+                        <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>1.5.5.Final</version>
-                        </annotationProcessorPath>
-                        <annotationProcessorPath>
+                        </path>
+                        <!-- Lombok processor -->
+                        <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>1.18.30</version>
-                        </annotationProcessorPath>
+                        </path>
+                        <!-- Lombok-MapStruct bridge -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
                     </annotationProcessorPaths>
                 </configuration>
 
