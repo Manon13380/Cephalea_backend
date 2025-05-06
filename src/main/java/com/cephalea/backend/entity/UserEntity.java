@@ -1,10 +1,13 @@
 package com.cephalea.backend.entity;
 
+import com.cephalea.backend.enumeration.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
@@ -49,6 +52,10 @@ public class UserEntity implements UserDetails {
     @Column(name = "neurologist")
     private String neurologist;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Role role;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CrisisEntity> crises = new ArrayList<>();
 
@@ -58,7 +65,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

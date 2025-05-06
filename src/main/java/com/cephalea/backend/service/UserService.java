@@ -3,6 +3,7 @@ package com.cephalea.backend.service;
 import com.cephalea.backend.dto.UserCrudDto;
 import com.cephalea.backend.dto.UserDto;
 import com.cephalea.backend.entity.UserEntity;
+import com.cephalea.backend.enumeration.Role;
 import com.cephalea.backend.mapper.UserDTOMapper;
 import com.cephalea.backend.repository.UserRepository;
 import com.cephalea.backend.security.PasswordHasher;
@@ -74,7 +75,7 @@ public class UserService {
 
         //Hash password
         userEntity.setPassword(PasswordHasher.hashPassword(userDto.getPassword()));
-
+        userEntity.setRole(Role.USER);
         //Save User
         UserEntity savedUserEntity = userRepository.save(userEntity);
         log.debug("Create user {}", savedUserEntity);

@@ -7,6 +7,7 @@ import com.cephalea.backend.service.MedicationService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class MedicationController {
     }
 
     @PostMapping("/medications")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<MedicationDto> medicationPost(@Valid @RequestBody MedicationCrudDto medicationCrudDto) {
         log.debug("medicationPost {}", medicationCrudDto);
         MedicationDto createdMedication = medicationService.createMedication(medicationCrudDto);
@@ -30,6 +32,7 @@ public class MedicationController {
     }
 
     @GetMapping("/medications")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<MedicationDto>> medicationsGet() {
         log.debug("medicationsGet");
         List<MedicationDto> medicationsDTOList = medicationService.findAll();
@@ -37,6 +40,7 @@ public class MedicationController {
     }
 
     @GetMapping("/medications/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<MedicationDto> medicationGet(@PathVariable UUID id) {
         log.debug("medicationGet");
         MedicationDto medication = medicationService.findByUUID(id);
@@ -44,10 +48,19 @@ public class MedicationController {
     }
 
     @PatchMapping("/medications/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<MedicationDto> userPatch(@PathVariable UUID id, @RequestBody MedicationCrudDto medicationCrudDto) {
         log.debug("medicationsPut");
         MedicationDto updateMedication= medicationService.updateMedication(medicationCrudDto,id);
         return ResponseEntity.ok(updateMedication);
+    }
+
+    @DeleteMapping("/medications/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> medicationDelete(@PathVariable UUID id) {
+        log.debug("REST request to delete medication with ID {}", id);
+        medicationService.deleteMedication(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -6,6 +6,7 @@ import com.cephalea.backend.service.SoulagementService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class SoulagementController {
     }
 
     @PostMapping("/soulagements")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<SoulagementDto> SoulagementPost(@Valid @RequestBody SoulagementCrudDto soulagementCrudDto) {
         log.debug("SoulagementPost {}", soulagementCrudDto);
         SoulagementDto createdSoulagement = soulagementService.createSoulagement(soulagementCrudDto);
@@ -29,6 +31,7 @@ public class SoulagementController {
     }
 
     @GetMapping("/soulagements")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<SoulagementDto>> soulagementsGet() {
         log.debug("soulagementsGet");
         List<SoulagementDto> soulagementDTOList = soulagementService.findAll();
@@ -36,6 +39,7 @@ public class SoulagementController {
     }
 
     @GetMapping("/soulagements/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<SoulagementDto> soulagementGet(@PathVariable UUID id) {
         log.debug("soulagementGet");
         SoulagementDto soulagement = soulagementService.findByUUID(id);
@@ -43,6 +47,7 @@ public class SoulagementController {
     }
 
     @PutMapping("/soulagements/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<SoulagementDto> soulagementPut(@PathVariable UUID id, @RequestBody SoulagementCrudDto soulagementCrudDto) {
         log.debug("soulagementPut");
         SoulagementDto updateSoulagement= soulagementService.updateSoulagement(soulagementCrudDto,id);
@@ -50,6 +55,7 @@ public class SoulagementController {
     }
 
     @DeleteMapping("/soulagements/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> soulagementDelete(@PathVariable UUID id) {
         log.debug("REST request to delete soulagement with ID {}", id);
         soulagementService.deleteSoulagement(id);

@@ -1,5 +1,6 @@
 package com.cephalea.backend.security;
 
+import com.cephalea.backend.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -50,6 +51,12 @@ public class JwtService {
     }
 
     private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
+
+
+        if (userDetails instanceof UserEntity user) {
+            extraClaims.put("role", user.getRole().name());
+            extraClaims.put("firstName", user.getFirstName());
+        }
         return Jwts
                 .builder()
                 .claims(extraClaims)

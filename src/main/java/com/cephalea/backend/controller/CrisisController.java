@@ -6,6 +6,7 @@ import com.cephalea.backend.service.CrisisService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CrisisController {
     }
 
     @PostMapping("/crisis")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<CrisisDto> crisisPost(@Valid @RequestBody CrisisCrudDto crisisCrudDto) {
         log.debug("crisisPost {}", crisisCrudDto);
         CrisisDto createdCrisis = crisisService.createCrisis(crisisCrudDto);
@@ -29,6 +31,7 @@ public class CrisisController {
     }
 
     @GetMapping("/crisis")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<CrisisDto>> crisisGet() {
         log.debug("crisisGet");
         List<CrisisDto> crisisDTOList = crisisService.findAll();
@@ -36,6 +39,7 @@ public class CrisisController {
     }
 
     @GetMapping("/crisis/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<CrisisDto> crisisGetOne(@PathVariable UUID id) {
         log.debug("crisisGetOne");
         CrisisDto crisis = crisisService.findByUUID(id);
@@ -43,6 +47,7 @@ public class CrisisController {
     }
 
     @PatchMapping("/crisis/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<CrisisDto> userPatch(@PathVariable UUID id, @RequestBody CrisisCrudDto crisisCrudDto) {
         log.debug("crisisPut");
         CrisisDto updateCrisis= crisisService.updateCrisis(crisisCrudDto,id);
@@ -50,6 +55,7 @@ public class CrisisController {
     }
 
     @DeleteMapping("/crisis/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> crisisDelete(@PathVariable UUID id) {
         log.debug("REST request to delete crisis with ID {}", id);
         crisisService.deleteCrisis(id);

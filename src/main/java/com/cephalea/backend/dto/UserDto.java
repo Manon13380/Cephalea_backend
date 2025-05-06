@@ -1,5 +1,6 @@
 package com.cephalea.backend.dto;
 
+import com.cephalea.backend.enumeration.Role;
 import lombok.*;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -18,6 +19,7 @@ public class UserDto {
     private String email;
     private String doctor;
     private String neurologist;
+    private Role role;
 
 
 }

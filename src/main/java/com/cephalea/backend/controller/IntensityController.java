@@ -7,6 +7,7 @@ import com.cephalea.backend.service.IntensityService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +23,15 @@ public class IntensityController {
     }
 
     @PostMapping("/intensities")
-    public ResponseEntity<IntensityDto> crisisPost(@Valid @RequestBody IntensityCrudDto intensityCrudDto) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<IntensityDto> intensityPost(@Valid @RequestBody IntensityCrudDto intensityCrudDto) {
         log.debug("intensitiesPost {}", intensityCrudDto);
         IntensityDto createdIntensity = intensityService.createIntensity(intensityCrudDto);
         return ResponseEntity.ok(createdIntensity);
     }
 
     @GetMapping("/intensities")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<IntensityDto>> intensitiesGet() {
         log.debug("intensitiesGet");
         List<IntensityDto> intensitiesDTOList = intensityService.findAll();
@@ -36,6 +39,7 @@ public class IntensityController {
     }
 
     @GetMapping("/intensities/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<IntensityDto> intensityGet(@PathVariable UUID id) {
         log.debug("intensityGet");
         IntensityDto intensity = intensityService.findByUUID(id);
@@ -43,6 +47,7 @@ public class IntensityController {
     }
 
     @PatchMapping("/intensities/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<IntensityDto> userPatch(@PathVariable UUID id, @RequestBody IntensityCrudDto intensityCrudDto) {
         log.debug("intensitiesPut");
         IntensityDto updateIntensity= intensityService.updateIntensity(intensityCrudDto,id);
@@ -50,6 +55,7 @@ public class IntensityController {
     }
 
     @DeleteMapping("/intensities/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> intensityDelete(@PathVariable UUID id) {
         log.debug("REST request to delete intensity with ID {}", id);
         intensityService.deleteIntensity(id);

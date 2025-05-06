@@ -6,6 +6,7 @@ import com.cephalea.backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,6 +26,7 @@ public class UserController {
 
 
     @GetMapping("/users")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<UserDto>> usersGet() {
         log.debug("usersGet");
         List<UserDto> userDTOList = userService.findAll();
@@ -32,6 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserDto> userGet(@PathVariable UUID id) {
         log.debug("userGet");
         UserDto user = userService.findByUUID(id);
@@ -39,6 +42,7 @@ public class UserController {
     }
 
     @PatchMapping("/user/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserDto> userPatch(@PathVariable UUID id, @RequestBody UserCrudDto userDTO) {
         log.debug("userPut");
         UserDto updateUser= userService.updateUser(userDTO,id);
@@ -46,6 +50,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> userDelete(@PathVariable UUID id) {
         log.debug("REST request to delete user with ID {}", id);
         userService.deleteUser(id);

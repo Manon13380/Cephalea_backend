@@ -53,7 +53,7 @@ public class MedicationEntity {
     private Period periodMaximum;
 
     @Column(name = "is_delete")
-    private Boolean isDelete;
+    private Boolean isDelete = false;
 
     @Column(name = "is_alarm")
     private Boolean isAlarm;

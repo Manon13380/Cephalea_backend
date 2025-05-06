@@ -17,6 +17,7 @@ public interface UserDTOMapper {
     @Mapping(target = "email", source = "email")
     @Mapping(target = "doctor", source = "doctor")
     @Mapping(target = "neurologist", source = "neurologist")
+    @Mapping(target = "role" , source = "role")
     UserDto toDTO(UserEntity userEntity);
 
 
@@ -28,5 +29,6 @@ public interface UserDTOMapper {
     @Mapping(target = "email", source = "email")
     @Mapping(target = "doctor", source = "doctor")
     @Mapping(target = "neurologist", source = "neurologist")
+    @Mapping(target = "role" , source = "role")
     UserEntity toEntity(UserCrudDto userCrudDto);
 }

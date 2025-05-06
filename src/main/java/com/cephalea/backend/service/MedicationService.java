@@ -104,9 +104,25 @@ public class MedicationService {
         if (medicationCrudDto.getIsAlarm() != null)
             medicationToUpdate.setIsAlarm(medicationCrudDto.getIsAlarm());
 
+
         MedicationEntity updatedMedicationEntity = medicationRepository.save(medicationToUpdate);
         log.debug("Update medication {}", updatedMedicationEntity);
         return medicationDTOMapper.toDTO(updatedMedicationEntity);
+    }
+
+    //delete Medication
+    public void deleteMedication(UUID id) {
+        log.debug("Delete medication with id {}", id);
+
+        MedicationEntity medicationToUpdate = medicationRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Medication not found with ID: " + id));
+
+            medicationToUpdate.setIsDelete(true);
+
+        MedicationEntity updatedMedicationEntity = medicationRepository.save(medicationToUpdate);
+        log.debug("Delete medication {}", updatedMedicationEntity);
+        medicationDTOMapper.toDTO(updatedMedicationEntity);
+
     }
 
 }
