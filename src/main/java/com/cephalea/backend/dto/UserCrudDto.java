@@ -32,7 +32,7 @@ public class UserCrudDto {
     private String password;
 
     @NotBlank(message = "Le mot de passe ne doit pas être vide")
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&/*-]).{8,}$",
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%&*-]).{8,}$",
             message = "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial")
     private String confirmPassword;
 
