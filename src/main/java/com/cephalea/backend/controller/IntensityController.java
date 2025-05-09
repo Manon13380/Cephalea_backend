@@ -24,9 +24,9 @@ public class IntensityController {
 
     @PostMapping("/intensities")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<IntensityDto> intensityPost(@Valid @RequestBody IntensityCrudDto intensityCrudDto) {
+    public ResponseEntity<IntensityDto> intensityPost(@Valid @RequestBody IntensityCrudDto intensityCrudDto, @RequestParam UUID id) {
         log.debug("intensitiesPost {}", intensityCrudDto);
-        IntensityDto createdIntensity = intensityService.createIntensity(intensityCrudDto);
+        IntensityDto createdIntensity = intensityService.createIntensity(intensityCrudDto, id);
         return ResponseEntity.ok(createdIntensity);
     }
 

@@ -17,9 +17,10 @@ public class WebConfig implements WebMvcConfigurer {
         logger.info("CORS configuration applied to all paths.");
 
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5175") // Frontend React
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("Content-Type", "Authorization")
-                .allowCredentials(true);
+                .allowedOrigins("http://localhost:5174") // Frontend React
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowedHeaders("Content-Type", "Authorization, Accept, X-Requested-With")
+                .allowCredentials(false)
+                .maxAge(3600);
     }
 }

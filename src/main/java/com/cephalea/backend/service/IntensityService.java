@@ -3,8 +3,10 @@ package com.cephalea.backend.service;
 
 import com.cephalea.backend.dto.IntensityCrudDto;
 import com.cephalea.backend.dto.IntensityDto;
+import com.cephalea.backend.entity.CrisisEntity;
 import com.cephalea.backend.entity.IntensityEntity;
 import com.cephalea.backend.mapper.IntensityDTOMapper;
+import com.cephalea.backend.repository.CrisisRepository;
 import com.cephalea.backend.repository.IntensityRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -22,11 +26,13 @@ public class IntensityService {
 
     private final IntensityRepository intensityRepository;
     private final IntensityDTOMapper intensityDTOMapper;
+    private final CrisisRepository  crisisRepository;
 
     @Autowired
-    public IntensityService(IntensityRepository intensityRepository, IntensityDTOMapper intensityDTOMapper) {
+    public IntensityService(IntensityRepository intensityRepository, IntensityDTOMapper intensityDTOMapper, CrisisRepository crisisRepository) {
         this.intensityRepository = intensityRepository;
         this.intensityDTOMapper = intensityDTOMapper;
+        this.crisisRepository = crisisRepository;
     }
 
     //Read all Intensities
@@ -55,11 +61,15 @@ public class IntensityService {
     }
 
     //Create Intensity
-    public IntensityDto createIntensity(IntensityCrudDto intensityCrudDto) {
+    public IntensityDto createIntensity(IntensityCrudDto intensityCrudDto, UUID id) {
         log.debug("Create intensity {}", intensityCrudDto);
         //Map DTO to entity
         IntensityEntity intensityEntity = intensityDTOMapper.toEntity(intensityCrudDto);
 
+        CrisisEntity crisis = crisisRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found with id " + id));
+
+        intensityEntity.setCrisis(Set.of(crisis));
         //Save intensity
         IntensityEntity savedIntensityEntity = intensityRepository.save(intensityEntity);
         log.debug("Create intensity {}", savedIntensityEntity);

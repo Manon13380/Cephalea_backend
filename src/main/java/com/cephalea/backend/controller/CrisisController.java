@@ -24,9 +24,9 @@ public class CrisisController {
 
     @PostMapping("/crisis")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<CrisisDto> crisisPost(@Valid @RequestBody CrisisCrudDto crisisCrudDto) {
+    public ResponseEntity<CrisisDto> crisisPost(@Valid @RequestBody CrisisCrudDto crisisCrudDto, @RequestParam int painIntensity, @RequestParam String userName) {
         log.debug("crisisPost {}", crisisCrudDto);
-        CrisisDto createdCrisis = crisisService.createCrisis(crisisCrudDto);
+        CrisisDto createdCrisis = crisisService.createCrisis(crisisCrudDto, painIntensity, userName);
         return ResponseEntity.ok(createdCrisis);
     }
 
