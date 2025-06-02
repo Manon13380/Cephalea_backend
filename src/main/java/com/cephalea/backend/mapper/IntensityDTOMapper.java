@@ -14,7 +14,6 @@ public interface IntensityDTOMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "date", source = "date")
     @Mapping(target = "number", source = "number")
-    @Mapping(target = "crisis", source = "crisis")
     IntensityDto toDTO(IntensityEntity intensityEntity);
 
     @Mapping(target = "date", source = "date")

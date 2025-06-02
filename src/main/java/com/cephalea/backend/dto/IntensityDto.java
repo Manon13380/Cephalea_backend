@@ -21,5 +21,4 @@ public class IntensityDto {
 
     private Integer number;
 
-    private Set<CrisisEntity> crisis = new HashSet<>();
 }

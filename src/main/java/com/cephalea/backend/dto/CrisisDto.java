@@ -1,8 +1,6 @@
 package com.cephalea.backend.dto;
 
 import com.cephalea.backend.entity.*;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Date;
@@ -24,7 +22,7 @@ public class CrisisDto {
 
     private String comment;
 
-    private UserEntity user;
+    private UserDto user;
 
     private Set<SoulagementEntity> soulagements = new HashSet<>();
 
@@ -32,7 +30,7 @@ public class CrisisDto {
 
     private Set<PotentialTriggerEntity> triggers = new HashSet<>();
 
-    private Set<IntensityEntity> intensities = new HashSet<>();
+    private Set<IntensityDto> intensities = new HashSet<>();
 
     private Set<CrisisMedicationEntity> crisisMedication = new HashSet<>();
 
