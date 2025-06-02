@@ -34,9 +34,10 @@ public class CrisisController {
 
     @GetMapping("/crisis")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<CrisisDto>> crisisGet() {
+    public ResponseEntity<List<CrisisDto>> crisisGet(Authentication authentication) {
         log.debug("crisisGet");
-        List<CrisisDto> crisisDTOList = crisisService.findAll();
+        String email = authentication.getName();
+        List<CrisisDto> crisisDTOList = crisisService.findAllByUserEmail(email);
         return ResponseEntity.ok(crisisDTOList);
     }
 

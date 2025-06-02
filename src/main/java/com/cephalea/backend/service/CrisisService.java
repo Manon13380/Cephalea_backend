@@ -12,6 +12,7 @@ import com.cephalea.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,11 +43,14 @@ public class CrisisService {
         this.userRepository = userRepository;
     }
 
-    //Read all Crisis
+    //Read all Crisis by user email
     @Transactional(readOnly = true)
-    public List<CrisisDto> findAll() {
+    public List<CrisisDto> findAllByUserEmail(String email) {
         log.debug("Find all crisis");
-        List<CrisisEntity> crisis = crisisRepository.findAll();
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+
+        List<CrisisEntity> crisis = crisisRepository.findAllByUser_Id(user.getId());
         List<CrisisDto> crisisDto = crisis.stream().map(crisisDTOMapper::toDTO).toList();
         log.debug("FindAll- Found {} crisis", crisisDto.size());
         log.debug("FindAll- got list {}", crisisDto);
