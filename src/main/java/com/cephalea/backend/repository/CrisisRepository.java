@@ -12,4 +12,5 @@ import java.util.UUID;
 @Repository
 public interface CrisisRepository extends JpaRepository<CrisisEntity, UUID> {
     List<CrisisEntity> findAllByUser_Id(UUID userId);
+    Optional<CrisisEntity> findByIdAndUser_Id(UUID id, UUID userId);
 }

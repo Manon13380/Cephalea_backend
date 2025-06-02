@@ -12,6 +12,7 @@ import com.cephalea.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,13 +62,15 @@ public class CrisisService {
     @Transactional(readOnly = true)
     public CrisisDto findByUUID(UUID id) {
         log.debug("Find crisis by UUID {}", id);
-        return crisisRepository.findById(id)
-                .map(crisisDTOMapper::toDTO)
-                .map(crisisDto -> {
-                    log.debug("Find crisis by UUID {}", crisisDto);
-                    return crisisDto;
-                })
-                .orElseThrow(() -> new EntityNotFoundException("Crisis not found with UUID: " + id));
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        UserEntity user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + userEmail));
+
+        CrisisEntity crisis = crisisRepository.findByIdAndUser_Id(id, user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found or not authorized for this user"));
+
+        return crisisDTOMapper.toDTO(crisis);
 
     }
 
