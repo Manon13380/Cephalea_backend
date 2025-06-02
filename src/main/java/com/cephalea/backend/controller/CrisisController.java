@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,9 @@ public class CrisisController {
 
     @PostMapping("/crisis")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<CrisisDto> crisisPost(@Valid @RequestBody CrisisCrudDto crisisCrudDto, @RequestParam int painIntensity, @RequestParam String userName) {
+    public ResponseEntity<CrisisDto> crisisPost(@Valid @RequestBody CrisisCrudDto crisisCrudDto, Authentication authentication, @RequestParam int painIntensity) {
         log.debug("crisisPost {}", crisisCrudDto);
+        String userName = authentication.getName();
         CrisisDto createdCrisis = crisisService.createCrisis(crisisCrudDto, painIntensity, userName);
         return ResponseEntity.ok(createdCrisis);
     }
