@@ -9,6 +9,7 @@ import com.cephalea.backend.repository.MedicationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +33,16 @@ public class MedicationService {
 
     //Read all Medications
     @Transactional(readOnly = true)
-    public List<MedicationDto> findAll() {
-        log.debug("Find all medications");
-        List<MedicationEntity> medications = medicationRepository.findAll();
-        List<MedicationDto> medicationsDto = medications.stream().map(medicationDTOMapper::toDTO).toList();
-        log.debug("FindAll- Found {} medications", medicationsDto.size());
-        log.debug("FindAll- got list {}", medicationsDto);
+    public List<MedicationDto> findAllForCurrentUserTraitement() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.debug("Find medications for user {} with isTreatment=true", email);
+
+        List<MedicationEntity> medications = medicationRepository.findByUserEmailAndIsTreatmentTrue(email);
+        List<MedicationDto> medicationsDto = medications.stream()
+                .map(medicationDTOMapper::toDTO)
+                .toList();
+
+        log.debug("Found {} medications", medicationsDto.size());
         return medicationsDto;
     }
 

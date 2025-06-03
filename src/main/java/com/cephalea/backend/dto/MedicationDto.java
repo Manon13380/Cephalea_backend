@@ -41,6 +41,8 @@ public class MedicationDto {
 
     private Boolean isAlarm;
 
+    private Boolean isTreatment;
+
     private UserEntity user;
 
     private Set<CrisisMedicationEntity> crisisMedication = new HashSet<>();

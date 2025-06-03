@@ -55,6 +55,9 @@ public class MedicationEntity {
     @Column(name = "is_delete")
     private Boolean isDelete = false;
 
+    @Column(name = "is_treatment")
+    private Boolean isTreatment = false;
+
     @Column(name = "is_alarm")
     private Boolean isAlarm;
 

@@ -35,7 +35,7 @@ public class MedicationController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<MedicationDto>> medicationsGet() {
         log.debug("medicationsGet");
-        List<MedicationDto> medicationsDTOList = medicationService.findAll();
+        List<MedicationDto> medicationsDTOList = medicationService.findAllForCurrentUserTraitement();
         return ResponseEntity.ok(medicationsDTOList);
     }
 

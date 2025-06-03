@@ -40,6 +40,8 @@ public class MedicationCrudDto {
 
     private Boolean isAlarm;
 
+    private Boolean isTreatment;
+
     @NotNull
     private UserEntity user;
 

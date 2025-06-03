@@ -21,6 +21,7 @@ public interface MedicationDTOMapper {
     @Mapping(target = "periodMaximum", source = "periodMaximum")
     @Mapping(target = "isDelete", source = "isDelete")
     @Mapping(target = "isAlarm", source = "isAlarm")
+    @Mapping(target = "isTreatment", source = "isTreatment")
     @Mapping(target = "user", source = "user")
     @Mapping(target = "crisisMedication", source = "crisisMedication")
     MedicationDto toDTO(MedicationEntity medicationEntity);
@@ -36,6 +37,7 @@ public interface MedicationDTOMapper {
     @Mapping(target = "periodMaximum", source = "periodMaximum")
     @Mapping(target = "isDelete", source = "isDelete")
     @Mapping(target = "isAlarm", source = "isAlarm")
+    @Mapping(target = "isTreatment", source = "isTreatment")
     @Mapping(target = "user", source = "user")
     @Mapping(target = "crisisMedication", source = "crisisMedication")
     MedicationEntity toEntity(MedicationCrudDto medicationCrudDto);
