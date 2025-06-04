@@ -42,7 +42,6 @@ public class MedicationCrudDto {
 
     private Boolean isTreatment;
 
-    @NotNull
     private UserEntity user;
 
     private Set<CrisisMedicationEntity> crisisMedication = new HashSet<>();

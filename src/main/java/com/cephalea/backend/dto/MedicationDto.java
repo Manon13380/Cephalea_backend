@@ -1,9 +1,7 @@
 package com.cephalea.backend.dto;
 
 import com.cephalea.backend.entity.CrisisMedicationEntity;
-import com.cephalea.backend.entity.UserEntity;
 import com.cephalea.backend.enumeration.Period;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
@@ -43,7 +41,7 @@ public class MedicationDto {
 
     private Boolean isTreatment;
 
-    private UserEntity user;
+    private UserDto user ;
 
     private Set<CrisisMedicationEntity> crisisMedication = new HashSet<>();
 }

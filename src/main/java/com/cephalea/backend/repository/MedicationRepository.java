@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface MedicationRepository extends JpaRepository<MedicationEntity, UUID> {
 
-    List<MedicationEntity> findByUserEmailAndIsTreatmentTrue(String email);
+    List<MedicationEntity> findByUserEmailAndIsTreatmentTrueAndIsDeleteFalse(String email);
 }

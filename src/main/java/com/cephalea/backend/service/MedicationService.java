@@ -4,12 +4,15 @@ package com.cephalea.backend.service;
 import com.cephalea.backend.dto.MedicationCrudDto;
 import com.cephalea.backend.dto.MedicationDto;
 import com.cephalea.backend.entity.MedicationEntity;
+import com.cephalea.backend.entity.UserEntity;
 import com.cephalea.backend.mapper.MedicationDTOMapper;
 import com.cephalea.backend.repository.MedicationRepository;
+import com.cephalea.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +27,13 @@ public class MedicationService {
 
     private final MedicationRepository medicationRepository;
     private final MedicationDTOMapper medicationDTOMapper;
+    private final UserRepository userRepository;
 
     @Autowired
-    public MedicationService(MedicationRepository medicationRepository, MedicationDTOMapper medicationDTOMapper) {
+    public MedicationService(MedicationRepository medicationRepository, MedicationDTOMapper medicationDTOMapper, UserRepository userRepository) {
         this.medicationRepository = medicationRepository;
         this.medicationDTOMapper = medicationDTOMapper;
+        this.userRepository = userRepository;
     }
 
     //Read all Medications
@@ -37,7 +42,7 @@ public class MedicationService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         log.debug("Find medications for user {} with isTreatment=true", email);
 
-        List<MedicationEntity> medications = medicationRepository.findByUserEmailAndIsTreatmentTrue(email);
+        List<MedicationEntity> medications = medicationRepository.findByUserEmailAndIsTreatmentTrueAndIsDeleteFalse(email);
         List<MedicationDto> medicationsDto = medications.stream()
                 .map(medicationDTOMapper::toDTO)
                 .toList();
@@ -63,8 +68,14 @@ public class MedicationService {
     //Create Medication
     public MedicationDto createMedication(MedicationCrudDto medicationCrudDto) {
         log.debug("Create medication {}", medicationCrudDto);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User with  " + email + " not found"));
         //Map DTO to entity
         MedicationEntity medicationEntity = medicationDTOMapper.toEntity(medicationCrudDto);
+
+        medicationEntity.setUser(user);
 
         //Save medication
         MedicationEntity savedMedicationEntity = medicationRepository.save(medicationEntity);

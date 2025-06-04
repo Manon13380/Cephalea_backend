@@ -29,7 +29,6 @@ public class CorsConfig implements WebMvcConfigurer {
     // Pour Spring MVC
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        System.out.println("🚀🚀CORS MVC Config applied");
         registry.addMapping("/**")
                 .allowedOrigins(ALLOWED_ORIGINS.toArray(new String[0]))
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
@@ -41,7 +40,6 @@ public class CorsConfig implements WebMvcConfigurer {
     // Pour Spring Security
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        System.out.println("🚀🚀🚀CORS Security Config bean created");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration());
         return source;
