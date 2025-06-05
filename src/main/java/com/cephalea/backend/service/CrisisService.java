@@ -116,19 +116,19 @@ public class CrisisService {
         if (crisisCrudDto.getUser() != null)
             crisisToUpdate.setUser(crisisCrudDto.getUser());
 
-        if (crisisCrudDto.getSoulagements() != null)
+        if (crisisCrudDto.getSoulagements() != null  && !crisisCrudDto.getSoulagements().isEmpty())
             crisisToUpdate.setSoulagements(crisisCrudDto.getSoulagements());
 
-        if (crisisCrudDto.getActivities() != null)
+        if (crisisCrudDto.getActivities() != null && !crisisCrudDto.getActivities().isEmpty())
             crisisToUpdate.setActivities(crisisCrudDto.getActivities());
 
-        if (crisisCrudDto.getTriggers() != null)
+        if (crisisCrudDto.getTriggers() != null && !crisisCrudDto.getTriggers().isEmpty())
             crisisToUpdate.setTriggers(crisisCrudDto.getTriggers());
 
-        if (crisisCrudDto.getIntensities() != null)
+        if (crisisCrudDto.getIntensities() != null && !crisisCrudDto.getIntensities().isEmpty())
             crisisToUpdate.setIntensities(crisisCrudDto.getIntensities());
 
-        if (crisisCrudDto.getCrisisMedication() != null)
+        if (crisisCrudDto.getCrisisMedication() != null && !crisisCrudDto.getCrisisMedication().isEmpty())
             crisisToUpdate.setCrisisMedication(crisisCrudDto.getCrisisMedication());
 
 
