@@ -69,7 +69,7 @@ public class IntensityService {
         CrisisEntity crisis = crisisRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Crisis not found with id " + id));
 
-        intensityEntity.setCrisis(Set.of(crisis));
+        intensityEntity.setCrisis(crisis);
         //Save intensity
         IntensityEntity savedIntensityEntity = intensityRepository.save(intensityEntity);
         log.debug("Create intensity {}", savedIntensityEntity);

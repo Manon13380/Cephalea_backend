@@ -27,5 +27,5 @@ public class IntensityCrudDto {
     private Integer number;
 
     @NotNull
-    private Set<CrisisEntity> crisis = new HashSet<>();
+    private CrisisEntity crisis;
 }

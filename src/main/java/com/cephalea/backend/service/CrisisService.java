@@ -90,8 +90,7 @@ public class CrisisService {
         intensity.setNumber(painIntensity);
 
         savedCrisisEntity.getIntensities().add(intensity);
-        intensity.getCrisis().add(savedCrisisEntity);
-        intensityRepository.save(intensity);
+
 
         log.debug("Create crisis {}", savedCrisisEntity);
         return crisisDTOMapper.toDTO(savedCrisisEntity);

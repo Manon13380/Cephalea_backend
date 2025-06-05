@@ -30,6 +30,7 @@ public class IntensityEntity {
     @ToString.Include
     private Integer number;
 
-    @ManyToMany(mappedBy = "intensities")
-    private Set<CrisisEntity> crisis = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "crisis_id", nullable = false)
+    private CrisisEntity crisis;
 }

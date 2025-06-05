@@ -60,13 +60,7 @@ public class CrisisEntity {
     )
     private Set<PotentialTriggerEntity> triggers = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "crisis_intensity",
-            joinColumns = @JoinColumn(name = "crisis_id"),
-            inverseJoinColumns = @JoinColumn(name = "intensity_id")
-    )
-
+    @OneToMany(mappedBy = "crisis", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<IntensityEntity> intensities = new HashSet<>();
 
 
