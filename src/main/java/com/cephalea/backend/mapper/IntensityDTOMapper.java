@@ -18,7 +18,6 @@ public interface IntensityDTOMapper {
 
     @Mapping(target = "date", source = "date")
     @Mapping(target = "number", source = "number")
-    @Mapping(target = "crisis", source = "crisis")
     IntensityEntity toEntity(IntensityCrudDto intensityCrudDto);
 
 }

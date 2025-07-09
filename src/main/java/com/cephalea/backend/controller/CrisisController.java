@@ -2,6 +2,7 @@ package com.cephalea.backend.controller;
 
 import com.cephalea.backend.dto.CrisisCrudDto;
 import com.cephalea.backend.dto.CrisisDto;
+import com.cephalea.backend.dto.SoulagementDto;
 import com.cephalea.backend.service.CrisisService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +63,23 @@ public class CrisisController {
     public ResponseEntity<Void> crisisDelete(@PathVariable UUID id) {
         log.debug("REST request to delete crisis with ID {}", id);
         crisisService.deleteCrisis(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/crisis/{crisisId}/soulagements/{soulagementId}")
+    public ResponseEntity<SoulagementDto> addSoulagementCrisis(
+            @PathVariable UUID crisisId,
+            @PathVariable UUID soulagementId) {
+        SoulagementDto addSoulagementInCrisis = crisisService.addSoulagement(crisisId, soulagementId);
+        return ResponseEntity.ok(addSoulagementInCrisis);
+    }
+
+    @DeleteMapping("/crisis/{crisisId}/soulagements/{soulagementId}")
+    public ResponseEntity<Void> removeSoulagement(
+            @PathVariable UUID crisisId,
+            @PathVariable UUID soulagementId) {
+
+        crisisService.removeSoulagement(crisisId, soulagementId);
         return ResponseEntity.noContent().build();
     }
 }

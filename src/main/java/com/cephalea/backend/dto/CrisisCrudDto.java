@@ -4,6 +4,7 @@ import com.cephalea.backend.entity.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,9 +16,9 @@ import java.util.Set;
 @Builder
 public class CrisisCrudDto {
     @NotNull
-    private Date startDate;
+    private LocalDateTime startDate;
 
-    private Date endDate;
+    private LocalDateTime endDate;
 
     private String comment;
 

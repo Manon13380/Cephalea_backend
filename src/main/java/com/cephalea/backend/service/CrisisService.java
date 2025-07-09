@@ -2,12 +2,16 @@ package com.cephalea.backend.service;
 
 import com.cephalea.backend.dto.CrisisCrudDto;
 import com.cephalea.backend.dto.CrisisDto;
+import com.cephalea.backend.dto.SoulagementDto;
 import com.cephalea.backend.entity.CrisisEntity;
 import com.cephalea.backend.entity.IntensityEntity;
+import com.cephalea.backend.entity.SoulagementEntity;
 import com.cephalea.backend.entity.UserEntity;
 import com.cephalea.backend.mapper.CrisisDTOMapper;
+import com.cephalea.backend.mapper.SoulagementDTOMapper;
 import com.cephalea.backend.repository.CrisisRepository;
 import com.cephalea.backend.repository.IntensityRepository;
+import com.cephalea.backend.repository.SoulagementRepository;
 import com.cephalea.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -31,17 +35,18 @@ public class CrisisService {
 
     private final CrisisRepository crisisRepository;
     private final CrisisDTOMapper crisisDTOMapper;
-
-    private final IntensityRepository intensityRepository;
+    private final SoulagementRepository soulagementRepository;
     private final UserRepository userRepository;
+    private final SoulagementDTOMapper soulagementDTOMapper;
 
 
     @Autowired
-    public CrisisService(CrisisRepository crisisRepository, CrisisDTOMapper crisisDTOMapper, IntensityRepository intensityRepository, UserRepository userRepository) {
+    public CrisisService(CrisisRepository crisisRepository, CrisisDTOMapper crisisDTOMapper, UserRepository userRepository, SoulagementRepository soulagementRepository, SoulagementDTOMapper soulagementDTOMapper) {
         this.crisisRepository = crisisRepository;
         this.crisisDTOMapper = crisisDTOMapper;
-        this.intensityRepository = intensityRepository;
+        this.soulagementRepository = soulagementRepository;
         this.userRepository = userRepository;
+        this.soulagementDTOMapper = soulagementDTOMapper;
     }
 
     //Read all Crisis by user email
@@ -88,6 +93,7 @@ public class CrisisService {
         IntensityEntity intensity = new IntensityEntity();
         intensity.setDate(LocalDateTime.now());
         intensity.setNumber(painIntensity);
+        intensity.setCrisis(savedCrisisEntity);
 
         savedCrisisEntity.getIntensities().add(intensity);
 
@@ -145,5 +151,33 @@ public class CrisisService {
         }
         crisisRepository.deleteById(id);
         log.debug("Delete crisis {}", id);
+    }
+
+    // add relief
+    public SoulagementDto addSoulagement(UUID crisisId, UUID soulagementId) {
+        CrisisEntity crisis = crisisRepository.findById(crisisId)
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found"));
+
+        SoulagementEntity soulagement = soulagementRepository.findById(soulagementId)
+                .orElseThrow(() -> new EntityNotFoundException("Soulagement not found"));
+
+        crisis.getSoulagements().add(soulagement);
+
+        crisisRepository.save(crisis);
+        return soulagementDTOMapper.toDTO(soulagement);
+    }
+
+    public void removeSoulagement(UUID crisisId, UUID soulagementId) {
+        CrisisEntity crisis = crisisRepository.findById(crisisId)
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found"));
+
+        SoulagementEntity soulagement = soulagementRepository.findById(soulagementId)
+                .orElseThrow(() -> new EntityNotFoundException("Soulagement not found"));
+
+        if (!crisis.getSoulagements().remove(soulagement)) {
+            throw new IllegalStateException("This soulagement is not linked to the crisis");
+        }
+
+        crisisRepository.save(crisis);
     }
 }

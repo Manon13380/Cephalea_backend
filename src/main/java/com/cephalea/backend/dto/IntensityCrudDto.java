@@ -23,9 +23,6 @@ public class IntensityCrudDto {
 
     @Min(0)
     @Max(10)
-    @NotBlank
-    private Integer number;
-
     @NotNull
-    private CrisisEntity crisis;
+    private Integer number;
 }
