@@ -1,8 +1,6 @@
 package com.cephalea.backend.controller;
 
-import com.cephalea.backend.dto.CrisisCrudDto;
-import com.cephalea.backend.dto.CrisisDto;
-import com.cephalea.backend.dto.SoulagementDto;
+import com.cephalea.backend.dto.*;
 import com.cephalea.backend.service.CrisisService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -82,4 +80,36 @@ public class CrisisController {
         crisisService.removeSoulagement(crisisId, soulagementId);
         return ResponseEntity.noContent().build();
     }
+    @PostMapping("/crisis/{crisisId}/triggers/{triggerId}")
+    public ResponseEntity<PotentialTriggerDto> addTriggerToCrisis(
+            @PathVariable UUID crisisId,
+            @PathVariable UUID triggerId) {
+        PotentialTriggerDto dto = crisisService.addTrigger(crisisId, triggerId);
+        return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping("/crisis/{crisisId}/triggers/{triggerId}")
+    public ResponseEntity<Void> removeTriggerFromCrisis(
+            @PathVariable UUID crisisId,
+            @PathVariable UUID triggerId) {
+        crisisService.removeTrigger(crisisId, triggerId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/crisis/{crisisId}/activities/{activityId}")
+    public ResponseEntity<ActivityAffectedDto> addActivityToCrisis(
+            @PathVariable UUID crisisId,
+            @PathVariable UUID activityId) {
+        ActivityAffectedDto dto = crisisService.addActivity(crisisId, activityId);
+        return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping("/crisis/{crisisId}/activities/{activityId}")
+    public ResponseEntity<Void> removeActivityFromCrisis(
+            @PathVariable UUID crisisId,
+            @PathVariable UUID activityId) {
+        crisisService.removeActivity(crisisId, activityId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

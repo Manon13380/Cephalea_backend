@@ -1,18 +1,12 @@
 package com.cephalea.backend.service;
 
-import com.cephalea.backend.dto.CrisisCrudDto;
-import com.cephalea.backend.dto.CrisisDto;
-import com.cephalea.backend.dto.SoulagementDto;
-import com.cephalea.backend.entity.CrisisEntity;
-import com.cephalea.backend.entity.IntensityEntity;
-import com.cephalea.backend.entity.SoulagementEntity;
-import com.cephalea.backend.entity.UserEntity;
+import com.cephalea.backend.dto.*;
+import com.cephalea.backend.entity.*;
+import com.cephalea.backend.mapper.ActivityAffectedDTOMapper;
 import com.cephalea.backend.mapper.CrisisDTOMapper;
+import com.cephalea.backend.mapper.PotentialTriggerDTOMapper;
 import com.cephalea.backend.mapper.SoulagementDTOMapper;
-import com.cephalea.backend.repository.CrisisRepository;
-import com.cephalea.backend.repository.IntensityRepository;
-import com.cephalea.backend.repository.SoulagementRepository;
-import com.cephalea.backend.repository.UserRepository;
+import com.cephalea.backend.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -38,15 +31,23 @@ public class CrisisService {
     private final SoulagementRepository soulagementRepository;
     private final UserRepository userRepository;
     private final SoulagementDTOMapper soulagementDTOMapper;
+    private final PotentialTriggerRepository potentialTriggerRepository;
+    private final PotentialTriggerDTOMapper potentialTriggerDTOMapper;
+    private final ActivityAffectedRepository activityAffectedRepository;
+    private final ActivityAffectedDTOMapper activityAffectedDTOMapper;
 
 
     @Autowired
-    public CrisisService(CrisisRepository crisisRepository, CrisisDTOMapper crisisDTOMapper, UserRepository userRepository, SoulagementRepository soulagementRepository, SoulagementDTOMapper soulagementDTOMapper) {
+    public CrisisService(CrisisRepository crisisRepository, CrisisDTOMapper crisisDTOMapper, UserRepository userRepository, SoulagementRepository soulagementRepository, SoulagementDTOMapper soulagementDTOMapper, PotentialTriggerRepository potentialTriggerRepository, PotentialTriggerDTOMapper potentialTriggerDTOMapper, ActivityAffectedRepository activityAffectedRepository, ActivityAffectedDTOMapper activityAffectedDTOMapper) {
         this.crisisRepository = crisisRepository;
         this.crisisDTOMapper = crisisDTOMapper;
         this.soulagementRepository = soulagementRepository;
         this.userRepository = userRepository;
         this.soulagementDTOMapper = soulagementDTOMapper;
+        this.potentialTriggerRepository = potentialTriggerRepository;
+        this.potentialTriggerDTOMapper = potentialTriggerDTOMapper;
+        this.activityAffectedRepository = activityAffectedRepository;
+        this.activityAffectedDTOMapper = activityAffectedDTOMapper;
     }
 
     //Read all Crisis by user email
@@ -180,4 +181,58 @@ public class CrisisService {
 
         crisisRepository.save(crisis);
     }
+    public PotentialTriggerDto addTrigger(UUID crisisId, UUID triggerId) {
+        CrisisEntity crisis = crisisRepository.findById(crisisId)
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found"));
+
+        PotentialTriggerEntity trigger = potentialTriggerRepository.findById(triggerId)
+                .orElseThrow(() -> new EntityNotFoundException("Trigger not found"));
+
+        crisis.getTriggers().add(trigger);
+        crisisRepository.save(crisis);
+
+        return potentialTriggerDTOMapper.toDTO(trigger);
+    }
+
+    public void removeTrigger(UUID crisisId, UUID triggerId) {
+        CrisisEntity crisis = crisisRepository.findById(crisisId)
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found"));
+
+        PotentialTriggerEntity trigger = potentialTriggerRepository.findById(triggerId)
+                .orElseThrow(() -> new EntityNotFoundException("Trigger not found"));
+
+        if (!crisis.getTriggers().remove(trigger)) {
+            throw new IllegalStateException("This trigger is not linked to the crisis");
+        }
+
+        crisisRepository.save(crisis);
+    }
+    public ActivityAffectedDto addActivity(UUID crisisId, UUID activityId) {
+        CrisisEntity crisis = crisisRepository.findById(crisisId)
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found"));
+
+        ActivityAffectedEntity activity = activityAffectedRepository.findById(activityId)
+                .orElseThrow(() -> new EntityNotFoundException("Activity not found"));
+
+        crisis.getActivities().add(activity);
+        crisisRepository.save(crisis);
+
+        return activityAffectedDTOMapper.toDTO(activity);
+    }
+
+    public void removeActivity(UUID crisisId, UUID activityId) {
+        CrisisEntity crisis = crisisRepository.findById(crisisId)
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found"));
+
+        ActivityAffectedEntity activity = activityAffectedRepository.findById(activityId)
+                .orElseThrow(() -> new EntityNotFoundException("Activity not found"));
+
+        if (!crisis.getActivities().remove(activity)) {
+            throw new IllegalStateException("This activity is not linked to the crisis");
+        }
+
+        crisisRepository.save(crisis);
+    }
+
+
 }
