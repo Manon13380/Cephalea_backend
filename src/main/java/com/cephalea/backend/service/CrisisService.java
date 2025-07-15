@@ -57,7 +57,7 @@ public class CrisisService {
         UserEntity user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 
-        List<CrisisEntity> crisis = crisisRepository.findAllByUser_Id(user.getId());
+        List<CrisisEntity> crisis = crisisRepository.findAllWithMedicationsByUserId(user.getId());
         List<CrisisDto> crisisDto = crisis.stream().map(crisisDTOMapper::toDTO).toList();
         log.debug("FindAll- Found {} crisis", crisisDto.size());
         log.debug("FindAll- got list {}", crisisDto);

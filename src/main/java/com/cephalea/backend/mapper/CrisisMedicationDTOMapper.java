@@ -6,18 +6,15 @@ import com.cephalea.backend.entity.CrisisMedicationEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { MedicationDTOMapper.class })
 @SuppressWarnings("UnmappedTargetProperties")
 public interface CrisisMedicationDTOMapper {
 
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "crisis", source = "crisis")
-    @Mapping(target = "medication", source = "medication")
     @Mapping(target = "dateTimeIntake", source = "dateTimeIntake")
+    @Mapping(target = "medication", source = "medication")
     CrisisMedicationDto toDTO(CrisisMedicationEntity crisisMedicationEntity);
 
-    @Mapping(target = "crisis", source = "crisis")
-    @Mapping(target = "medication", source = "medication")
     @Mapping(target = "dateTimeIntake", source = "dateTimeIntake")
     CrisisMedicationEntity toEntity(CrisisMedicationCrudDto crisisMedicationCrudDto);
 

@@ -17,12 +17,6 @@ import java.util.UUID;
 public class CrisisMedicationCrudDto {
 
     @NotNull
-    private CrisisEntity crisis;
-
-    @NotNull
-    private MedicationEntity medication;
-
-    @NotNull
-    @NotBlank(message = "La date ne peut pas être vide")
+//    @NotBlank(message = "La date ne peut pas être vide")
     private LocalDateTime dateTimeIntake;
 }

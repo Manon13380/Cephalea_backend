@@ -1,11 +1,10 @@
 package com.cephalea.backend.dto;
 
-import com.cephalea.backend.entity.CrisisMedicationEntity;
+
 import com.cephalea.backend.enumeration.Period;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+
 import java.util.UUID;
 
 @Setter
@@ -43,5 +42,4 @@ public class MedicationDto {
 
     private UserDto user ;
 
-    private Set<CrisisMedicationEntity> crisisMedication = new HashSet<>();
 }

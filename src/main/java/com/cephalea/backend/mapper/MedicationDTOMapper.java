@@ -23,7 +23,6 @@ public interface MedicationDTOMapper {
     @Mapping(target = "isAlarm", source = "isAlarm")
     @Mapping(target = "isTreatment", source = "isTreatment")
     @Mapping(target = "user", source = "user")
-    @Mapping(target = "crisisMedication", source = "crisisMedication")
     MedicationDto toDTO(MedicationEntity medicationEntity);
 
     @Mapping(target = "name", source = "name")

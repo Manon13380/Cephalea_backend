@@ -1,8 +1,5 @@
 package com.cephalea.backend.dto;
 
-import com.cephalea.backend.entity.CrisisEntity;
-import com.cephalea.backend.entity.MedicationEntity;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,9 +15,7 @@ public class CrisisMedicationDto {
 
     private UUID id;
 
-    private CrisisEntity crisis;
-
-    private MedicationEntity medication;
+    private MedicationDto medication;
 
     private LocalDateTime dateTimeIntake;
 

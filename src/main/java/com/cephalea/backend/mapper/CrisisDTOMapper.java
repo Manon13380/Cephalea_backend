@@ -6,7 +6,7 @@ import com.cephalea.backend.entity.CrisisEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { CrisisMedicationDTOMapper.class })
 @SuppressWarnings("UnmappedTargetProperties")
 public interface CrisisDTOMapper {
 

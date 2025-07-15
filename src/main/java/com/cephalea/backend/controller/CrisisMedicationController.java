@@ -22,11 +22,11 @@ public class CrisisMedicationController {
         this.crisisMedicationService = crisisMedicationService;
     }
 
-    @PostMapping("/crisisMedications")
+    @PostMapping("/crisis/{id}/crisisMedications")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<CrisisMedicationDto> crisisMedicationPost(@Valid @RequestBody CrisisMedicationCrudDto crisisMedicationCrudDto) {
+    public ResponseEntity<CrisisMedicationDto> crisisMedicationPost(@Valid @RequestBody CrisisMedicationCrudDto crisisMedicationCrudDto, @PathVariable UUID id , @RequestParam UUID medicationId ) {
         log.debug("crisisMedicationsPost {}", crisisMedicationCrudDto);
-        CrisisMedicationDto createdCrisisMedication = crisisMedicationService.createCrisisMedication(crisisMedicationCrudDto);
+        CrisisMedicationDto createdCrisisMedication = crisisMedicationService.createCrisisMedication(crisisMedicationCrudDto, id ,medicationId);
         return ResponseEntity.ok(createdCrisisMedication);
     }
 
@@ -46,11 +46,11 @@ public class CrisisMedicationController {
         return ResponseEntity.ok(crisisMedication);
     }
 
-    @PatchMapping("/crisisMedications/{id}")
+    @PatchMapping("/crisis/{id}/crisisMedications/{crisisMedicationId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<CrisisMedicationDto> userPatch(@PathVariable UUID id, @RequestBody CrisisMedicationCrudDto crisisMedicationCrudDto) {
+    public ResponseEntity<CrisisMedicationDto> userPatch(@PathVariable UUID id, @PathVariable UUID crisisMedicationId, @RequestBody CrisisMedicationCrudDto crisisMedicationCrudDto, @RequestParam UUID medicationId) {
         log.debug("crisisMedicationPatch");
-        CrisisMedicationDto updateCrisisMedication= crisisMedicationService.updateCrisisMedication(crisisMedicationCrudDto,id);
+        CrisisMedicationDto updateCrisisMedication= crisisMedicationService.updateCrisisMedication(crisisMedicationCrudDto,id,crisisMedicationId,medicationId);
         return ResponseEntity.ok(updateCrisisMedication);
     }
 

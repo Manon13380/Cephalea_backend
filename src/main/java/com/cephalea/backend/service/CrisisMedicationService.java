@@ -1,12 +1,15 @@
 package com.cephalea.backend.service;
 
 
-
 import com.cephalea.backend.dto.CrisisMedicationCrudDto;
 import com.cephalea.backend.dto.CrisisMedicationDto;
+import com.cephalea.backend.entity.CrisisEntity;
 import com.cephalea.backend.entity.CrisisMedicationEntity;
+import com.cephalea.backend.entity.MedicationEntity;
 import com.cephalea.backend.mapper.CrisisMedicationDTOMapper;
 import com.cephalea.backend.repository.CrisisMedicationRepository;
+import com.cephalea.backend.repository.CrisisRepository;
+import com.cephalea.backend.repository.MedicationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +28,15 @@ public class CrisisMedicationService {
 
     private final CrisisMedicationRepository crisisMedicationRepository;
     private final CrisisMedicationDTOMapper crisisMedicationDTOMapper;
+    private final CrisisRepository crisisRepository;
+    private final MedicationRepository medicationRepository;
 
     @Autowired
-    public CrisisMedicationService(CrisisMedicationRepository crisisMedicationRepository, CrisisMedicationDTOMapper crisisMedicationDTOMapper) {
+    public CrisisMedicationService(CrisisMedicationRepository crisisMedicationRepository, CrisisMedicationDTOMapper crisisMedicationDTOMapper, CrisisRepository crisisRepository, MedicationRepository medicationRepository) {
         this.crisisMedicationRepository = crisisMedicationRepository;
         this.crisisMedicationDTOMapper = crisisMedicationDTOMapper;
+        this.crisisRepository = crisisRepository;
+        this.medicationRepository = medicationRepository;
     }
 
     //Read all CrisisMedications
@@ -57,41 +64,52 @@ public class CrisisMedicationService {
     }
 
     //Create CrisisMedication
-    public CrisisMedicationDto createCrisisMedication(CrisisMedicationCrudDto crisisMedicationCrudDto) {
-        log.debug("Create CrisisMedication {}", crisisMedicationCrudDto);
+    public CrisisMedicationDto createCrisisMedication(CrisisMedicationCrudDto crisisMedicationCrudDto, UUID id, UUID medicationId) {
+        log.info("Create CrisisMedication {}", crisisMedicationCrudDto);
+        CrisisEntity crisis = crisisRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found with ID: " + id));
 
-        if (crisisMedicationRepository.existsByCrisisAndMedicationAndDateTimeIntake(crisisMedicationCrudDto.getCrisis(), crisisMedicationCrudDto.getMedication(), crisisMedicationCrudDto.getDateTimeIntake()))
-        {
-            log.debug("CrisisMedication with date {} already exists", crisisMedicationCrudDto.getDateTimeIntake());
+        MedicationEntity medication = medicationRepository.findById(medicationId)
+                .orElseThrow(() -> new EntityNotFoundException("Medication not found with ID: " + medicationId));
+
+        if (crisisMedicationRepository.existsByCrisisAndMedicationAndDateTimeIntake(crisis, medication, crisisMedicationCrudDto.getDateTimeIntake())) {
+            log.info("CrisisMedication with date {} already exists", crisisMedicationCrudDto.getDateTimeIntake());
             throw new ResponseStatusException(HttpStatus.CONFLICT, "CrisisMedication with date " + crisisMedicationCrudDto.getDateTimeIntake() + " already exists.");
         }
         //Map DTO to entity
         CrisisMedicationEntity crisisMedicationEntity = crisisMedicationDTOMapper.toEntity(crisisMedicationCrudDto);
+        crisisMedicationEntity.setMedication(medication);
+        crisisMedicationEntity.setCrisis(crisis);
 
 
         //Save Activity
         CrisisMedicationEntity savedCrisisMedicationEntity = crisisMedicationRepository.save(crisisMedicationEntity);
-        log.debug("Create activity {}", savedCrisisMedicationEntity);
+        log.info("Create CrisisMedication{}", savedCrisisMedicationEntity.getMedication());
+        log.info(" Medication ID = {}", savedCrisisMedicationEntity.getMedication() != null ? savedCrisisMedicationEntity.getMedication().getId() : "null");
         return crisisMedicationDTOMapper.toDTO(savedCrisisMedicationEntity);
     }
 
     //Update CrisisMedication
-    public CrisisMedicationDto updateCrisisMedication(CrisisMedicationCrudDto crisisMedicationCrudDto, UUID id) {
+    public CrisisMedicationDto updateCrisisMedication(CrisisMedicationCrudDto crisisMedicationCrudDto, UUID crisisId, UUID crisisMedicationId, UUID medicationId) {
         log.debug("Update crisisMedication {}", crisisMedicationCrudDto);
 
+        CrisisMedicationEntity crisisMedicationToUpdate = crisisMedicationRepository.findById(crisisMedicationId)
+                .orElseThrow(() -> new EntityNotFoundException("CrisisMedication not found with ID: " + crisisMedicationId));
 
-        CrisisMedicationEntity crisisMedicationToUpdate = crisisMedicationRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Activity not found with ID: " + id));
+        CrisisEntity crisis = crisisRepository.findById(crisisId)
+                .orElseThrow(() -> new EntityNotFoundException("Crisis not found with ID: " + crisisId));
+
+        MedicationEntity medication = medicationRepository.findById(medicationId)
+                .orElseThrow(() -> new EntityNotFoundException("Medication not found with ID: " + medicationId));
 
 
-        if (crisisMedicationRepository.existsByCrisisAndMedicationAndDateTimeIntake(crisisMedicationCrudDto.getCrisis(), crisisMedicationCrudDto.getMedication(), crisisMedicationCrudDto.getDateTimeIntake()))
-        {
+        if (crisisMedicationRepository.existsByCrisisAndMedicationAndDateTimeIntake(crisis, medication, crisisMedicationCrudDto.getDateTimeIntake())) {
             log.debug("CrisisMedication with date {} already exists", crisisMedicationCrudDto.getDateTimeIntake());
             throw new ResponseStatusException(HttpStatus.CONFLICT, "CrisisMedication with date " + crisisMedicationCrudDto.getDateTimeIntake() + " already exists.");
         }
 
-        if (crisisMedicationCrudDto.getMedication() != null)
-            crisisMedicationToUpdate.setMedication(crisisMedicationCrudDto.getMedication());
+        if (medication != crisisMedicationToUpdate.getMedication())
+            crisisMedicationToUpdate.setMedication(medication);
 
         if (crisisMedicationCrudDto.getDateTimeIntake() != null)
             crisisMedicationToUpdate.setDateTimeIntake(crisisMedicationCrudDto.getDateTimeIntake());
@@ -105,10 +123,21 @@ public class CrisisMedicationService {
     //Delete CrisisMedication
     public void deleteCrisisMedication(UUID id) {
         log.debug("Delete CrisisMedication {}", id);
-        if (!crisisMedicationRepository.existsById(id)) {
-            throw new EntityNotFoundException("CrisisMedication not found with ID: " + id);
-        }
+
+        CrisisMedicationEntity crisisMedication = crisisMedicationRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("CrisisMedication not found with ID: " + id));
+
+        MedicationEntity medication = crisisMedication.getMedication();
+
         crisisMedicationRepository.deleteById(id);
         log.debug("Delete activity {}", id);
+
+        // Vérifie si la medication est à supprimer
+        if (medication != null && Boolean.FALSE.equals(medication.getIsTreatment())) {
+
+            medicationRepository.deleteById(medication.getId());
+            log.debug("Deleted Medication {} because isTreatment was false and no longer used", medication.getId());
+
+        }
     }
 }
