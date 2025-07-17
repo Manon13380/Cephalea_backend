@@ -1,5 +1,6 @@
 package com.cephalea.backend.service;
 
+import com.cephalea.backend.dto.PasswordUpdateDto;
 import com.cephalea.backend.dto.UserCrudDto;
 import com.cephalea.backend.dto.UserDto;
 import com.cephalea.backend.entity.UserEntity;
@@ -90,8 +91,6 @@ public class UserService {
         UserEntity userToUpdate = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + id));
 
-        boolean checkPassword = PasswordHasher.checkPassword(userDto.getPassword(), userToUpdate.getPassword());
-
         if (userDto.getEmail() != null && !userDto.getEmail().equals(userToUpdate.getEmail())) {
             if (userRepository.existsByEmail(userDto.getEmail())) {
                 log.error("User with email {} already exists", userDto.getEmail());
@@ -100,7 +99,7 @@ public class UserService {
             userToUpdate.setEmail(userDto.getEmail());
         }
 
-        if (userDto.getPassword() != null) {
+        if (userDto.getPassword() != null && !userDto.getPassword().isBlank()) {
             if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
                 log.error("Password does not match confirm password");
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password does not match confirm password");
@@ -138,5 +137,29 @@ public class UserService {
         }
         userRepository.deleteById(id);
         log.debug("Delete user {}", id);
+    }
+
+    public void updatePassword(UUID userId, PasswordUpdateDto dto) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
+
+        if (dto.getOldPassword() == null || dto.getNewPassword() == null || dto.getConfirmPassword() == null) {
+            throw new IllegalArgumentException("Tous les champs sont requis");
+        }
+
+        // Vérification de l'ancien mot de passe
+        if (!PasswordHasher.checkPassword(dto.getOldPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Ancien mot de passe incorrect");
+        }
+
+        // Validation confirmation
+        if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
+            throw new IllegalArgumentException("Le nouveau mot de passe et la confirmation ne correspondent pas");
+        }
+
+        // Mise à jour du mot de passe
+        String hashed = PasswordHasher.hashPassword(dto.getNewPassword());
+        user.setPassword(hashed);
+        userRepository.save(user);
     }
 }

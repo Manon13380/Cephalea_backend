@@ -56,6 +56,8 @@ public class JwtService {
         if (userDetails instanceof UserEntity user) {
             extraClaims.put("role", user.getRole().name());
             extraClaims.put("firstName", user.getFirstName());
+            extraClaims.put("lastName", user.getName());
+            extraClaims.put("id", user.getId());
         }
         return Jwts
                 .builder()

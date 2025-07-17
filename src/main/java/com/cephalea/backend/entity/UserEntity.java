@@ -37,6 +37,7 @@ public class UserEntity implements UserDetails {
     @ToString.Include
     private String firstName;
 
+
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 

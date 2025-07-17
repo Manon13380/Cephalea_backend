@@ -1,5 +1,6 @@
 package com.cephalea.backend.controller;
 
+import com.cephalea.backend.dto.PasswordUpdateDto;
 import com.cephalea.backend.dto.UserCrudDto;
 import com.cephalea.backend.dto.UserDto;
 import com.cephalea.backend.service.UserService;
@@ -54,6 +55,12 @@ public class UserController {
     public ResponseEntity<Void> userDelete(@PathVariable UUID id) {
         log.debug("REST request to delete user with ID {}", id);
         userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/user/{id}/password")
+    public ResponseEntity<Void> updatePassword(@PathVariable UUID id, @RequestBody PasswordUpdateDto dto) {
+        userService.updatePassword(id, dto);
         return ResponseEntity.noContent().build();
     }
 
