@@ -63,6 +63,9 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedicationEntity> medications = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user")
+    private PasswordResetToken resetToken;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
