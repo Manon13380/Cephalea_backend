@@ -12,6 +12,8 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      SECURITY_JWT_SECRET_KEY: "test-secret-key"
 
     steps:
     - name: Checkout code
