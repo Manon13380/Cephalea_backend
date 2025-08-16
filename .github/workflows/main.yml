@@ -31,8 +31,5 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
           
-    - name: Print active Spring profile
-      run: mvn help:evaluate -Dexpression=spring.profiles.active -Dspring.profiles.active=test
-          
     - name: Build and run tests
-      run: mvn clean test -Dspring.profiles.active=test
+      run: mvn clean test -Dspring.profiles.active=test -B -V
