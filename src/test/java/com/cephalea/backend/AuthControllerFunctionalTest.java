@@ -42,9 +42,16 @@ class AuthControllerFunctionalTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @MockitoBean
+    private JwtService jwtService;
+
     @BeforeEach
     void setup() {
         userRepository.deleteAll();
+
+        when(jwtService.generateToken(org.mockito.ArgumentMatchers.any()))
+                .thenReturn("dummy-jwt-token");
+
     }
 
     @Test
