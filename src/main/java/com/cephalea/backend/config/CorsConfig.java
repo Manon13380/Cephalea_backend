@@ -1,5 +1,7 @@
 package com.cephalea.backend.config;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -14,7 +16,16 @@ import java.util.List;
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
-    private static final List<String> ALLOWED_ORIGINS = List.of("http://localhost:5173");
+    @Value("${url.reset.pwd}")
+    private String urlFront;
+
+    private List<String> ALLOWED_ORIGINS;
+
+    @PostConstruct
+    public void init() {
+        // Maintenant urlFront est injecté, donc pas de NPE
+        ALLOWED_ORIGINS = List.of(urlFront);
+    }
 
     private CorsConfiguration corsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();

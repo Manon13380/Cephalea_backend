@@ -92,7 +92,7 @@ public class CrisisService {
         CrisisEntity savedCrisisEntity = crisisRepository.save(crisisEntity);
 
         IntensityEntity intensity = new IntensityEntity();
-        intensity.setDate(LocalDateTime.now());
+        intensity.setDate(crisisCrudDto.getStartDate());
         intensity.setNumber(painIntensity);
         intensity.setCrisis(savedCrisisEntity);
 
