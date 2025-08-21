@@ -16,16 +16,7 @@ import java.util.List;
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
-    @Value("${url.reset.pwd}")
-    private String urlFront;
-
-    private List<String> ALLOWED_ORIGINS;
-
-    @PostConstruct
-    public void init() {
-        // Maintenant urlFront est injecté, donc pas de NPE
-        ALLOWED_ORIGINS = List.of(urlFront);
-    }
+    private static final List<String> ALLOWED_ORIGINS = List.of("http://localhost:5173");
 
     private CorsConfiguration corsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();
