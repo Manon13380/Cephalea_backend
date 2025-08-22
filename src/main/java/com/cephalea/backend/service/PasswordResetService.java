@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,10 +34,8 @@ public class PasswordResetService {
 
         UserEntity user = optionalUser.get();
 
-        List<PasswordResetToken> oldTokens = tokenRepository.findByUser(user);
-        if (!oldTokens.isEmpty()) {
-            tokenRepository.deleteAll(oldTokens);
-        }
+            tokenRepository.deleteAllByUser(user);
+
         String token = UUID.randomUUID().toString();
 
         PasswordResetToken resetToken = new PasswordResetToken();
