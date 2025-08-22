@@ -26,6 +26,17 @@ Si tu veux lancer uniquement le backend en local, laisse PostgreSQL tourner via 
 
     docker-compose up -d postgres
 
+⚙️ Configuration
+
+Les variables d’environnement sont définies dans un fichier .env :
+
+    COMPOSE_PROJECT_NAME=docker_backend_cephalea
+    SECURITY_JWT_SECRET_KEY=
+    USERNAME_DEV_POSTGRES=
+    PWD_DEV_POSTGRES=
+    MAIL_USERNAME=
+    MAIL_PWD=
+    URL_RESET_PWD=http://localhost:5173/
 
 🔧 Commandes Docker utiles
 
