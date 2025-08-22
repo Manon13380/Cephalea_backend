@@ -7,6 +7,8 @@ WORKDIR /app
 # Copier uniquement les fichiers nécessaires
 COPY . /app
 
+RUN chmod +x mvnw
+
 # Installer Maven pour exécuter Spring Boot directement
 RUN apk add --no-cache maven
 
