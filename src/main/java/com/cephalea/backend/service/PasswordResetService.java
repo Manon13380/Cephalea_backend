@@ -33,6 +33,8 @@ public class PasswordResetService {
         if (optionalUser.isEmpty()) return;
 
         UserEntity user = optionalUser.get();
+
+        tokenRepository.deleteAllByUser(user);
         String token = UUID.randomUUID().toString();
 
         PasswordResetToken resetToken = new PasswordResetToken();
