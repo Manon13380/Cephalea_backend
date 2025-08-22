@@ -47,49 +47,56 @@ public class PasswordResetService {
         String subject = "Réinitialisation de mot de passe";
 
         String htmlContent = """
-                    <html>
-                    <head>
-                        <style>
-                            .container {
-                                max-width: 600px;
-                                margin: auto;
-                                padding: 20px;
-                                font-family: Arial, sans-serif;
-                                border: 1px solid #eee;
-                                border-radius: 10px;
-                                background-color: #f9f9f9;
-                                color: #333;
-                            }
-                            .button {
-                                display: inline-block;
-                                padding: 10px 20px;
-                                margin-top: 20px;
-                                font-size: 16px;
-                                background-color: #007bff;
-                                color: white;
-                                text-decoration: none;
-                                border-radius: 5px;
-                            }
-                            .footer {
-                                margin-top: 30px;
-                                font-size: 12px;
-                                color: #777;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="container">
-                            <h2>Réinitialisation de votre mot de passe</h2>
-                            <p>Vous avez demandé à réinitialiser votre mot de passe.</p>
-                            <p>Pour procéder, cliquez sur le bouton ci-dessous :</p>
-                            <a href="%s" class="button">Réinitialiser mon mot de passe</a>
-                            <p>Si vous n'avez pas demandé cette réinitialisation, ignorez simplement ce message.</p>
-                            <div class="footer">
-                                <p>&copy; 2025 Cephalea. Tous droits réservés.</p>
-                            </div>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        .container {
+                            max-width: 600px;
+                            margin: auto;
+                            padding: 20px;
+                            font-family: Arial, sans-serif;
+                            border: 1px solid #eee;
+                            border-radius: 10px;
+                            background-color: #f9f9f9;
+                            color: #333;
+                            text-align: center;
+                        }
+                        .logo {
+                            max-width: 150px;
+                            margin-bottom: 20px;
+                        }
+                        .button {
+                            display: inline-block;
+                            padding: 12px 25px;
+                            margin-top: 20px;
+                            font-size: 16px;
+                            background-color: #368A7B;
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 5px;
+                        }
+                        .footer {
+                            margin-top: 30px;
+                            font-size: 12px;
+                            color: #777;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <img src="http://cephalea.ri7.tech/images/Logo_cephalea.png" alt="Cephalea Logo" class="logo"/>
+                        <h2>Réinitialisation de votre mot de passe</h2>
+                        <p>Vous avez demandé à réinitialiser votre mot de passe.</p>
+                        <p>Pour procéder, cliquez sur le bouton ci-dessous :</p>
+                        <a href="%s" class="button">Réinitialiser mon mot de passe</a>
+                        <p>Si vous n'avez pas demandé cette réinitialisation, ignorez simplement ce message.</p>
+                        <div class="footer">
+                            <p>&copy; 2025 Cephalea. Tous droits réservés.</p>
                         </div>
-                    </body>
-                    </html>
+                    </div>
+                </body>
+                </html>
                 """.formatted(resetUrl);
         emailService.sendEmail(email, subject, htmlContent);
     }
