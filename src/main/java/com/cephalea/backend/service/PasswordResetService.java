@@ -42,7 +42,7 @@ public class PasswordResetService {
 
         tokenRepository.save(resetToken);
 
-        String resetUrl = urlResetPwd + "reset-password?token=" + token;
+        String resetUrl = "http://57.128.84.212:9090/reset-password?token=" + token;
 
         String subject = "Réinitialisation de mot de passe";
 
